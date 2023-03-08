@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        service: manage
+      config:
+        file-extension: yaml
+  profiles:
+    active: dev

@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        service: sms
+      server-addr: localhost:8848
+      config:
+        file-extension: yaml
+  profiles:
+    active: dev
+
+
