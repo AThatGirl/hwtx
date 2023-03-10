@@ -28,12 +28,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-
-        <!--nacos客户端依赖包-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
         <!--openfeign远程调用-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

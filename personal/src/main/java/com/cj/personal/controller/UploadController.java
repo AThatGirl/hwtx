@@ -3,11 +3,9 @@ package com.cj.personal.controller;
 
 import com.cj.common.vo.ResultVO;
 import com.cj.personal.service.UploadService;
-import com.cj.personal.vo.AvatarUploadVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @CrossOrigin
 @Api(tags = "上传文件")
+@RequestMapping("/personal/upload")
 public class UploadController {
 
     @Autowired

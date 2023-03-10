@@ -26,9 +26,9 @@ public class ClockIn implements Serializable {
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
-    private String startTime;
+    private String signTime;
 
-    private String endTime;
+    private String signType;
 
     private String info;
 

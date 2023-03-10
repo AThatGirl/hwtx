@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/suggest")
+@RequestMapping("/written/suggest")
 @Api(tags = "建议", value = "建议")
 public class SuggestController {
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/written")
+@RequestMapping("/written/written")
 @Api(tags = "请假条", value = "请假条")
 public class WrittenController {
 

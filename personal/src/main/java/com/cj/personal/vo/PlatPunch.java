@@ -20,10 +20,10 @@ public class PlatPunch {
     private String longitude;
     /*纬度*/
     private String latitude;
-    //是否是上班
-    private boolean isWork;
     //员工id
     private String employeeId;
+    //打卡类型
+    private String signType;
     //其他信息
     private String info;
 

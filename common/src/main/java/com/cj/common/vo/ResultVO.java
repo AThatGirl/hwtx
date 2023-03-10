@@ -3,6 +3,7 @@ package com.cj.common.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 返回结果对象
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ResultVO {
 
     public static final String SUCCESS_CODE = "success";

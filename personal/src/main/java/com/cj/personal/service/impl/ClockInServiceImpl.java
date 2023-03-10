@@ -1,5 +1,6 @@
 package com.cj.personal.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cj.common.entity.ClockIn;
 import com.cj.common.mapper.ClockInMapper;
 import com.cj.common.utils.DateUtils;
@@ -12,6 +13,7 @@ import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GlobalCoordinates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class ClockInServiceImpl implements ClockInService {
@@ -44,20 +46,18 @@ public class ClockInServiceImpl implements ClockInService {
         if (geoCurve < 100) {
             return ResultVO.fail().setMessage("不在范围内");
         }
+
         ClockIn clockIn = new ClockIn();
         clockIn.setId(UUIDUtils.getId());
+        clockIn.setSignTime(DateUtils.getNowDate());
+        clockIn.setSignType(platPunch.getSignType());
+        clockIn.setInfo(platPunch.getInfo());
         clockIn.setEmployeeId(platPunch.getEmployeeId());
-        if (platPunch.isWork()) {
-            clockIn.setStartTime(DateUtils.getNowDate());
-            clockIn.setEndTime("null");
-            clockIn.setInfo(platPunch.getInfo());
-        } else {
-            clockIn.setEndTime(DateUtils.getNowDate());
-        }
         try {
             clockInMapper.insert(clockIn);
         } catch (Exception e) {
             e.printStackTrace();
+            return ResultVO.success().setMessage("打卡失败");
         }
         return ResultVO.success().setMessage("打卡成功").setData(clockIn);
 

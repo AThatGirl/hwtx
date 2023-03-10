@@ -1,6 +1,7 @@
 package com.cj.manage.service;
 
 import com.cj.common.vo.ResultVO;
+import com.cj.common.vo.WrittenSearchVO;
 
 /**
  * 请假条管理
@@ -12,11 +13,12 @@ public interface WrittenService {
     /**
      * 搜索请假信息
      *
-     * @param name  请假人姓名
-     * @param status 请假状态
+     * @param writtenSearchVO 请假条
      * @return {@link ResultVO}
      */
-    ResultVO search(String name, String status);
+    ResultVO search(WrittenSearchVO writtenSearchVO);
+
+
 
 
 

@@ -8,5 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: manage
-
-
+mybatis-plus:
+  mapper-locations: classpath*:xml/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

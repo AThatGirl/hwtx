@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2023-01-10
  */
 @RestController
-@RequestMapping("/employee/clock-in")
+@RequestMapping("/personal/clock-in")
 @CrossOrigin
 @Api(tags = "打卡功能")
 public class ClockInController {
