@@ -23,11 +23,16 @@ public class WrittenController {
     private WrittenService writtenService;
 
     @GetMapping("/search")
-    @ApiOperation(value = "根据名称查询")
+    @ApiOperation(value = "根据名称或状态查询")
     public ResultVO search(@ModelAttribute WrittenSearchVO writtenSearchVO){
         return writtenService.search(writtenSearchVO);
     }
 
+    @PostMapping("/examine")
+    @ApiOperation(value = "审批请假条")
+    public ResultVO examine(@RequestParam("id") String id, @RequestParam("status") String status){
+        return writtenService.examine(id, status);
+    }
 
 
 }

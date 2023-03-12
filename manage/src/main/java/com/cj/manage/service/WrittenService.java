@@ -19,6 +19,14 @@ public interface WrittenService {
     ResultVO search(WrittenSearchVO writtenSearchVO);
 
 
+    /**
+     * 审批请假条
+     *
+     * @param id 请假条id
+     * @param status 状态
+     * @return {@link ResultVO}
+     */
+    ResultVO examine(String id, String status);
 
 
 

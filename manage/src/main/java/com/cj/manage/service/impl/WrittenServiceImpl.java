@@ -1,5 +1,6 @@
 package com.cj.manage.service.impl;
 
+import com.cj.common.entity.Written;
 import com.cj.common.mapper.WrittenMapper;
 import com.cj.common.vo.ResultVO;
 import com.cj.common.vo.WrittenResponseVO;
@@ -27,5 +28,20 @@ public class WrittenServiceImpl implements WrittenService {
         map.put("writtens", writtens);
         return ResultVO.success().setData(map);
     }
+
+    @Override
+    public ResultVO examine(String id, String status) {
+        Written written = writtenMapper.selectById(id);
+        written.setStatus(status);
+
+        try {
+            writtenMapper.updateById(written);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultVO.fail().setMessage("更新失败");
+        }
+        return ResultVO.success();
+    }
+
 
 }
