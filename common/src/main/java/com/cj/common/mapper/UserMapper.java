@@ -18,5 +18,4 @@ import java.util.List;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
-    List<User> selectList(QueryWrapper<User> userWrapper);
 }

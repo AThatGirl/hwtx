@@ -30,10 +30,10 @@ public class UserServiceImpl implements UserService {
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.ne("career", UserCareer.SUPER_ADMIN).ne("career", UserCareer.ADMIN);
         //根据名字查询
-        if (StringUtils.isEmpty(userSearchVO.getName())) {
+        if (!StringUtils.isEmpty(userSearchVO.getName())) {
             userQueryWrapper.eq("name", userSearchVO.getName());
         }
-        if (StringUtils.isEmpty(userSearchVO.getStatus())) {
+        if (!StringUtils.isEmpty(userSearchVO.getStatus())) {
             userQueryWrapper.eq("status", userSearchVO.getStatus());
         }
 

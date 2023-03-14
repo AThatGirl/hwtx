@@ -15,17 +15,22 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "用户管理", value = "用户管理")
 public class UserController {
 
+    public static final Integer DEFAULT_PAGE_NUM = 1;
+
     @Autowired
     private UserService userService;
 
     @GetMapping("/search")
     @ApiOperation("条件查询")
     private ResultVO search(@ModelAttribute UserSearchVO userSearchVO){
+        if (userSearchVO.getPageNum() == null){
+            userSearchVO.setPageNum(DEFAULT_PAGE_NUM);
+        }
         return userService.search(userSearchVO);
     }
 
     @PostMapping("/deleteUser")
-    @ApiOperation("条件查询")
+    @ApiOperation("删除用户")
     private ResultVO deleteUser(@RequestBody String[] ids){
         return userService.deleteUser(ids);
     }

@@ -19,12 +19,17 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "请假条", tags =  "请假条")
 public class WrittenController {
 
+    public static final Integer DEFAULT_PAGE_NUM = 1;
+
     @Autowired
     private WrittenService writtenService;
 
     @GetMapping("/search")
     @ApiOperation(value = "根据名称或状态查询")
     public ResultVO search(@ModelAttribute WrittenSearchVO writtenSearchVO){
+        if (writtenSearchVO.getPageNum() == null){
+            writtenSearchVO.setPageNum(DEFAULT_PAGE_NUM);
+        }
         return writtenService.search(writtenSearchVO);
     }
 

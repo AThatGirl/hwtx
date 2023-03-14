@@ -19,7 +19,7 @@ public class StoreController {
 
     @GetMapping("/search/{id}")
     @ApiOperation("查询门店信息")
-    public ResultVO search(@RequestParam String id){
+    public ResultVO search(@PathVariable("id") String id){
         return storeService.search(id);
     }
 

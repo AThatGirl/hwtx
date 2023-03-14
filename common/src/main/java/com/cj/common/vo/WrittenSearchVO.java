@@ -23,7 +23,7 @@ public class WrittenSearchVO {
     /**
      * 页数
      */
-    private int pageNum;
+    private Integer pageNum;
 
 
 }

@@ -38,5 +38,7 @@ public class Preference implements Serializable {
 
     private String dinnerTime;
 
+    private String employeeId;
+
 
 }
