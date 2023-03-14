@@ -37,7 +37,7 @@ public interface UserService {
      *
      * 审核
      * @param id 用户id
-     * @param status 用户状态
+     * @param pass 用户状态
      * @return {@link ResultVO}
      */
     ResultVO examine(String id, Integer pass);
