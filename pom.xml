@@ -11,6 +11,8 @@
         <module>written</module>
         <module>personal</module>
         <module>manage</module>
+        <module>mq-service</module>
+        <module>mq-consumer</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
