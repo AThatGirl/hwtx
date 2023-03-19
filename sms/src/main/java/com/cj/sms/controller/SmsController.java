@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/sms")
+@RequestMapping("/sms/sms")
 @CrossOrigin //跨域
 @Api(tags = "短信服务")
 public class SmsController {
@@ -21,7 +21,7 @@ public class SmsController {
     private RedisTemplate<String, String> redisTemplate;
 
 
-    @PostMapping(value = "/send/{phone}")
+    @GetMapping(value = "/send/{phone}")
     @ApiOperation("发送短信")
     public ResultVO code(@PathVariable String phone) {
         return smsService.send(phone, redisTemplate);
