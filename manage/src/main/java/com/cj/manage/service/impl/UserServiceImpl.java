@@ -2,16 +2,17 @@ package com.cj.manage.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cj.common.en.CommonError;
 import com.cj.common.en.UserCareer;
 import com.cj.common.entity.*;
+import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.*;
 import com.cj.common.vo.ResultVO;
 import com.cj.manage.service.UserService;
 import com.cj.manage.vo.UserSearchVO;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
@@ -58,12 +59,8 @@ public class UserServiceImpl implements UserService {
             userQueryWrapper.eq("status", userSearchVO.getStatus());
         }
 
-        try {
-            userMapper.selectPage(page, userQueryWrapper);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultVO.fail();
-        }
+        userMapper.selectPage(page, userQueryWrapper);
+
         Map<String, Object> map = new HashMap<>();
         map.put("total", page.getTotal());
         map.put("users", page.getRecords());
@@ -72,18 +69,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultVO changeUserInfo(User user) {
-        try {
-            userMapper.updateById(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultVO.fail();
+        int res = userMapper.updateById(user);
+        if (res < 0) {
+            ClassException.cast(CommonError.UPDATE_ERROR);
         }
         return ResultVO.success();
     }
 
     @Override
+    @Transactional
     public ResultVO deleteUser(String[] ids) {
-
         try {
             List<String> list = Arrays.asList(ids);
             userMapper.deleteBatchIds(Arrays.asList(ids));
@@ -95,20 +90,18 @@ public class UserServiceImpl implements UserService {
             writtenMapper.delete(new QueryWrapper<Written>().in("employee_id", list));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultVO.fail();
+            return ResultVO.fail().setMessage("删除异常");
         }
         return ResultVO.success();
     }
 
     @Override
     public ResultVO examine(String id, Integer pass) {
-        try {
-            User user = userMapper.selectById(id);
-            user.setPass(pass);
-            userMapper.updateById(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultVO.fail();
+        User user = userMapper.selectById(id);
+        user.setPass(pass);
+        int res = userMapper.updateById(user);
+        if (res < 0) {
+            ClassException.cast(CommonError.UPDATE_ERROR);
         }
         return ResultVO.success();
     }

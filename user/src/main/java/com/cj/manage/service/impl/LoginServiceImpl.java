@@ -11,7 +11,6 @@ import com.cj.manage.utils.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,11 +20,6 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
-
-
 
     @Override
     public ResultVO loginForPassword(String phone, String password) {

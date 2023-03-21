@@ -1,7 +1,9 @@
 package com.cj.written.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cj.common.en.CommonError;
 import com.cj.common.entity.Suggest;
+import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.SuggestMapper;
 import com.cj.common.utils.UUIDUtils;
 import com.cj.common.vo.ResultVO;
@@ -42,24 +44,19 @@ public class SuggestServiceImpl implements SuggestService {
         suggest.setEmployeeId(suggestVO.getId());
         suggest.setSubTime(suggestVO.getSubmitTime());
 
-        try {
-            suggestMapper.insert(suggest);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultVO.fail().setMessage("提交异常");
+        int res = suggestMapper.insert(suggest);
+        if (res < 0){
+            ClassException.cast(CommonError.INSERT_ERROR);
         }
-
         return ResultVO.success().setMessage("提交成功");
     }
 
     @Override
     public ResultVO deleteSuggestById(String id) {
-        try {
-            suggestMapper.deleteById(id);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultVO.fail().setMessage("删除失败");
+        int res = suggestMapper.deleteById(id);
+        if (res < 0){
+            ClassException.cast(CommonError.DELETE_ERROR);
         }
         return ResultVO.success().setMessage("删除成功");
     }

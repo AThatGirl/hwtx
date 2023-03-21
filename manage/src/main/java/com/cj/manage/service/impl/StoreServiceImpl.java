@@ -1,6 +1,8 @@
 package com.cj.manage.service.impl;
 
+import com.cj.common.en.CommonError;
 import com.cj.common.entity.Store;
+import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.StoreMapper;
 import com.cj.common.vo.ResultVO;
 import com.cj.manage.service.StoreService;
@@ -13,26 +15,17 @@ public class StoreServiceImpl implements StoreService {
     @Autowired
     private StoreMapper storeMapper;
 
-
     @Override
     public ResultVO search(String id) {
-        Store store = null;
-        try {
-            store = storeMapper.selectById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultVO.fail();
-        }
+        Store store = storeMapper.selectById(id);
         return ResultVO.success().setData(store);
     }
 
     @Override
     public ResultVO changeStoreInfo(Store store) {
-        try {
-            storeMapper.updateById(store);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultVO.fail();
+        int res = storeMapper.updateById(store);
+        if (res < 0){
+            ClassException.cast(CommonError.UPDATE_ERROR);
         }
         return ResultVO.success();
     }

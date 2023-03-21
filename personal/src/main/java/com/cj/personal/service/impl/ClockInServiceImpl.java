@@ -1,7 +1,9 @@
 package com.cj.personal.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cj.common.en.CommonError;
 import com.cj.common.entity.ClockIn;
+import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.ClockInMapper;
 import com.cj.common.utils.DateUtils;
 import com.cj.common.utils.UUIDUtils;
@@ -53,11 +55,9 @@ public class ClockInServiceImpl implements ClockInService {
         clockIn.setSignType(platPunch.getSignType());
         clockIn.setInfo(platPunch.getInfo());
         clockIn.setEmployeeId(platPunch.getEmployeeId());
-        try {
-            clockInMapper.insert(clockIn);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultVO.success().setMessage("打卡失败");
+        int res = clockInMapper.insert(clockIn);
+        if (res < 0){
+            ClassException.cast(CommonError.INSERT_ERROR);
         }
         return ResultVO.success().setMessage("打卡成功").setData(clockIn);
 

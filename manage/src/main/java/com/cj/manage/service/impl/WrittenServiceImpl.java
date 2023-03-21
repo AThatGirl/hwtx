@@ -1,7 +1,10 @@
 package com.cj.manage.service.impl;
 
+import com.cj.common.en.CommonError;
 import com.cj.common.entity.Written;
+import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.WrittenMapper;
+import com.cj.common.utils.DateUtils;
 import com.cj.common.vo.ResultVO;
 import com.cj.common.vo.WrittenResponseVO;
 import com.cj.common.vo.WrittenSearchVO;
@@ -33,12 +36,10 @@ public class WrittenServiceImpl implements WrittenService {
     public ResultVO examine(String id, String status) {
         Written written = writtenMapper.selectById(id);
         written.setStatus(status);
-
-        try {
-            writtenMapper.updateById(written);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultVO.fail().setMessage("更新失败");
+        written.setUpdateTime(DateUtils.getNowDate());
+        int res = writtenMapper.updateById(written);
+        if (res < 0) {
+            ClassException.cast(CommonError.UPDATE_ERROR);
         }
         return ResultVO.success();
     }

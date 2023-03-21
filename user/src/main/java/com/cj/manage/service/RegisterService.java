@@ -15,7 +15,7 @@ public interface RegisterService {
     /**
      * 用户注册
      *
-     * @param user 用户
+     * @param registerVO 用户
      * @return {@link ResultVO}
      */
     ResultVO userRegister(RegisterVO registerVO);

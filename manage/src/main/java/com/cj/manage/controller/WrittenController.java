@@ -1,8 +1,9 @@
 package com.cj.manage.controller;
 
 import com.cj.common.vo.ResultVO;
-import com.cj.manage.service.WrittenService;
 import com.cj.common.vo.WrittenSearchVO;
+import com.cj.manage.service.WrittenService;
+import com.cj.manage.vo.ExamineWrittenVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class WrittenController {
 
     @PostMapping("/examine")
     @ApiOperation(value = "审批请假条")
-    public ResultVO examine(@RequestParam("id") String id, @RequestParam("status") String status){
-        return writtenService.examine(id, status);
+    public ResultVO examine(@RequestBody ExamineWrittenVO examineWrittenVO){
+        return writtenService.examine(examineWrittenVO.getId(), examineWrittenVO.getStatus());
     }
 
 

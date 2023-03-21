@@ -1,6 +1,8 @@
 package com.cj.personal.service.impl;
 
+import com.cj.common.en.CommonError;
 import com.cj.common.entity.User;
+import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.UserMapper;
 import com.cj.common.vo.ResultVO;
 import com.cj.personal.service.MessageService;
@@ -15,26 +17,16 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public ResultVO getMessageById(String id) {
-        User user = null;
-        try {
-            user = userMapper.selectById(id);
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResultVO.fail().setMessage("获取失败");
-        }
-
+        User user = userMapper.selectById(id);
         return ResultVO.success().setData(user);
     }
 
     @Override
     public ResultVO updateMessage(User user) {
-        try {
-            userMapper.updateById(user);
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResultVO.fail().setMessage("更新失败");
+        int res = userMapper.updateById(user);
+        if (res < 0){
+            ClassException.cast(CommonError.UPDATE_ERROR);
         }
-
         return ResultVO.success().setMessage("更新成功");
     }
 }

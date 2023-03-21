@@ -1,8 +1,10 @@
 package com.cj.manage.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.cj.common.en.CommonError;
 import com.cj.common.en.UserCareer;
 import com.cj.common.entity.User;
+import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.UserMapper;
 import com.cj.common.utils.Md5Utils;
 import com.cj.common.utils.UUIDUtils;
@@ -54,8 +56,10 @@ public class RegisterServiceImpl implements RegisterService {
         user.setCareer(registerVO.getCareer());
         user.setEmail(registerVO.getEmail());
         user.setStoreId(registerVO.getStoreId());
-        userMapper.insert(user);
-
+        int res = userMapper.insert(user);
+        if (res < 0) {
+            ClassException.cast(CommonError.INSERT_ERROR);
+        }
         return ResultVO.success().setMessage("注册成功").setData(user);
     }
 }
