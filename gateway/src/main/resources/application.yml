@@ -28,6 +28,14 @@ spring:
           uri: lb://written
           predicates:
               - Path=/written/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            maxAge: 1800
+
           #使用RewritePath过滤器将请求的路径重写为后端服务期望的路径格式
 #          filters:
 #            - RewritePath=/another/(?<path>.*), /$\{path}

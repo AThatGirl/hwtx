@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/sms/sms")
-@CrossOrigin //跨域
 @Api(tags = "短信服务")
 public class SmsController {
 
@@ -29,7 +28,7 @@ public class SmsController {
 
     @GetMapping("/getNoteByPhone/{phone}")
     @ApiOperation("获取短信验证码")
-    public ResultVO getNoteByPhone(@PathVariable("phone") String phone){
+    public ResultVO getNoteByPhone(@PathVariable String phone){
         return smsService.getNoteByPhone(phone, redisTemplate);
     }
 

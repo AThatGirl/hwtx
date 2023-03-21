@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
 @Api(tags = "偏好设置")
 @RequestMapping("/personal/preference")
 public class PreferenceController {

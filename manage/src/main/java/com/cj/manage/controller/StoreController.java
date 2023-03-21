@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/manage/store")
 @Api(tags = "门店管理", value = "门店管理")
 public class StoreController {

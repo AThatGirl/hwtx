@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
  * @date 2023/03/07
  */
 @RestController
-@CrossOrigin
 @RequestMapping("/written/suggest")
 @Api(tags = "建议", value = "建议")
 public class SuggestController {

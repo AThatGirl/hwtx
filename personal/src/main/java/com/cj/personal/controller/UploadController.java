@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2023/03/07
  */
 @RestController
-@CrossOrigin
 @Api(tags = "上传文件")
 @RequestMapping("/personal/upload")
 public class UploadController {

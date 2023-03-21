@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
  *  @author 杰瑞
  */
 @RestController
-@CrossOrigin
 @RequestMapping("/manage/written")
 @Api(value = "请假条", tags =  "请假条")
 public class WrittenController {

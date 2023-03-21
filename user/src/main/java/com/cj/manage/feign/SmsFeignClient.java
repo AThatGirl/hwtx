@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author 杰瑞
  * @date 2023/02/23
  */
-@FeignClient(value = "sms", url = "http://localhost:8005/sms")
+@FeignClient(value = "sms", url = "http://localhost:8005/sms/sms")
 public interface SmsFeignClient {
 
     /**
