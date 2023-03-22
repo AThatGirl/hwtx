@@ -14,6 +14,11 @@ spring:
     username: zhumeng
     password: 123456
     virtual-host: /
+    # 配置消息发送成功和失败的回调
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
   cloud:
     nacos:
       server-addr: localhost:8848

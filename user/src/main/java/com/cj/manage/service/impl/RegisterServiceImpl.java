@@ -9,10 +9,10 @@ import com.cj.common.mapper.UserMapper;
 import com.cj.common.utils.Md5Utils;
 import com.cj.common.utils.UUIDUtils;
 import com.cj.common.vo.ResultVO;
+import com.cj.manage.feign.MqServiceFeignClient;
 import com.cj.manage.service.RegisterService;
 import com.cj.manage.vo.RegisterVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +22,8 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private MqServiceFeignClient mqServiceFeignClient;
 
     @Override
     public ResultVO userRegister(RegisterVO registerVO) {
@@ -60,6 +62,8 @@ public class RegisterServiceImpl implements RegisterService {
         if (res < 0) {
             ClassException.cast(CommonError.INSERT_ERROR);
         }
+        //发送消息
+        mqServiceFeignClient.updateStore(user.getStoreId());
         return ResultVO.success().setMessage("注册成功").setData(user);
     }
 }

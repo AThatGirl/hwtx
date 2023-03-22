@@ -1,6 +1,5 @@
 package com.cj.manage.service;
 
-import com.cj.common.entity.User;
 import com.cj.common.vo.ResultVO;
 import com.cj.manage.vo.RegisterVO;
 
