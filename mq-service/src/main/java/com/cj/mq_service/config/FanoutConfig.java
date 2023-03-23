@@ -13,24 +13,44 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class FanoutConfig {
+    //store
+    public static final String STORE_EXCHANGE_NAME = "store.fanout";
+    public static final String STORE_QUEUE_NAME = "fanout.store";
 
-    public static final String FANOUT_EXCHANGE_NAME = "notice.fanout";
-    public static final String FANOUT_QUEUE_NAME = "fanout.queue";
+    //notice
+    public static final String NOTICE_EXCHANGE_NAME = "notice.fanout";
+    public static final String NOTICE_QUEUE_NAME = "fanout.notice";
+    
+    
 
     //声明交换机
     @Bean
-    public FanoutExchange fanoutExchange(){
-        return new FanoutExchange(FANOUT_EXCHANGE_NAME);
+    public FanoutExchange storeExchange(){
+        return new FanoutExchange(STORE_EXCHANGE_NAME);
     }
     //声明队列
     @Bean
-    public Queue fanoutQueue(){
-        return new Queue(FANOUT_QUEUE_NAME);
+    public Queue storeQueue(){
+        return new Queue(STORE_QUEUE_NAME);
+    }
+    @Bean
+    public Binding storeBinding(Queue storeQueue, FanoutExchange storeExchange){
+        return BindingBuilder.bind(storeQueue).to(storeExchange);
     }
 
+    //声明交换机
     @Bean
-    public Binding fanoutBinding(Queue fanoutQueue, FanoutExchange fanoutExchange){
-        return BindingBuilder.bind(fanoutQueue).to(fanoutExchange);
+    public FanoutExchange noticeExchange(){
+        return new FanoutExchange(NOTICE_EXCHANGE_NAME);
+    }
+    //声明队列
+    @Bean
+    public Queue noticeQueue(){
+        return new Queue(NOTICE_QUEUE_NAME);
+    }
+    @Bean
+    public Binding noticeBinding(Queue noticeQueue, FanoutExchange noticeExchange){
+        return BindingBuilder.bind(noticeQueue).to(noticeExchange);
     }
 
 

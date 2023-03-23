@@ -84,6 +84,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--openfeign远程调用-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
 
     </dependencies>
 

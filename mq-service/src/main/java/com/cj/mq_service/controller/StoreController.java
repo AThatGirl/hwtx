@@ -1,9 +1,7 @@
 package com.cj.mq_service.controller;
 
 import com.cj.common.vo.ResultVO;
-import com.cj.mq_service.service.NoticeService;
 import com.cj.mq_service.service.StoreService;
-import com.cj.mq_service.vo.SendOneVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,7 @@ public class StoreController {
     private StoreService storeService;
 
     @GetMapping("/updateStore/{msg}")
-    @ApiOperation("发送消息通知")
+    @ApiOperation("通知门店内容更新")
     public ResultVO updateStore(@PathVariable("msg") String msg){
         //发送消息，让门店更新人数
         storeService.updateStore(msg);

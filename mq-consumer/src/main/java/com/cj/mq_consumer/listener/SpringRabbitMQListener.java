@@ -1,5 +1,6 @@
 package com.cj.mq_consumer.listener;
 
+import com.cj.mq_consumer.service.NoticeService;
 import com.cj.mq_consumer.service.StoreService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -16,15 +17,25 @@ public class SpringRabbitMQListener {
     @Autowired
     private StoreService storeService;
 
-    public static final String FANOUT_EXCHANGE_NAME = "notice.fanout";
-    public static final String FANOUT_QUEUE_NAME = "fanout.queue";
+    @Autowired
+    private NoticeService noticeService;
+
+    public static final String STORE_QUEUE_NAME = "fanout.store";
+    public static final String NOTICE_QUEUE_NAME = "fanout.notice";
 
 
-    @RabbitListener(queues = FANOUT_QUEUE_NAME)
-    public void listenFanoutQueue(String msg){
+    @RabbitListener(queues = STORE_QUEUE_NAME)
+    public void listenStoreQueue(String msg){
         //msg 为发送的id
         storeService.updateStoreUserNum(msg);
-        log.info("消费者处理消息成功！");
+        log.info("门店信息更新成功！");
+    }
+
+    @RabbitListener(queues = NOTICE_QUEUE_NAME)
+    public void listenNoticeQueue(String msg){
+        //msg为json对象
+        noticeService.sendNotice(msg);
+        log.info("发送通知成功成功！");
     }
 
 

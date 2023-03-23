@@ -11,8 +11,9 @@ public interface MqServiceFeignClient {
 
 
     @GetMapping("/updateStore/{msg}")
-    @ApiOperation("发送消息通知")
+    @ApiOperation("通知门店内容更新")
     ResultVO updateStore(@PathVariable("msg") String msg);
+
 
 
 }

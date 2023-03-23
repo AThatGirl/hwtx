@@ -22,6 +22,10 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public void updateStoreUserNum(String storeId) {
         Store store = storeMapper.selectById(storeId);
+        //防止消息发送错误，消息一直消费不了
+        if (store == null){
+            return;
+        }
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.ne("career", UserCareer.SUPER_ADMIN.getCareer()).ne("career", UserCareer.ADMIN.getCareer());
         Integer sum = userMapper.selectCount(queryWrapper);

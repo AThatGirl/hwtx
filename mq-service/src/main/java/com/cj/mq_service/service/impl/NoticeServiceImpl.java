@@ -1,45 +1,33 @@
 package com.cj.mq_service.service.impl;
 
-import com.cj.common.entity.Notice;
-import com.cj.common.mapper.NoticeMapper;
-import com.cj.common.utils.DateUtils;
-import com.cj.common.utils.UUIDUtils;
-import com.cj.common.vo.ResultVO;
+import com.alibaba.fastjson.JSONObject;
+import com.cj.mq_service.common.MqSendUtils;
 import com.cj.mq_service.config.FanoutConfig;
 import com.cj.mq_service.service.NoticeService;
-import com.cj.mq_service.vo.SendOneVO;
+import com.cj.common.vo.SendNoticeVO;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class NoticeServiceImpl implements NoticeService {
-
-
-    @Autowired
-    private NoticeMapper noticeMapper;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
     @Override
-    public ResultVO sendToEmployee(SendOneVO sendOneVO) {
-        Notice notice = new Notice();
-        notice.setId(UUIDUtils.getId());
-        notice.setSenderId(sendOneVO.getSendId());
-        notice.setReceiverId(sendOneVO.getReceiveId());
-        notice.setContent(sendOneVO.getContent());
-        notice.setStatus(Notice.UNREAD_STATUS);
-        notice.setCreateTime(DateUtils.getNowDate());
-        try {
-            noticeMapper.insert(notice);
-        }catch (Exception e){
-            e.printStackTrace();
-            return ResultVO.fail();
-        }
-        String queueName = FanoutConfig.FANOUT_QUEUE_NAME;
-        String message = sendOneVO.getContent();
-        rabbitTemplate.convertAndSend(queueName, "", message);
-        return ResultVO.success();
+    public void sendNotice(SendNoticeVO sendNoticeVO) {
+
+        String exchangeName = FanoutConfig.NOTICE_EXCHANGE_NAME;
+        String routingKey = "";
+        //对象转json
+        String msg = JSONObject.toJSONString(sendNoticeVO);
+        //消息回调
+        CorrelationData correlationData = MqSendUtils.callbackUtil(exchangeName, routingKey, msg, rabbitTemplate);
+        rabbitTemplate.convertAndSend(exchangeName, routingKey, msg, correlationData);
+        log.info("发送成功！");
     }
 }

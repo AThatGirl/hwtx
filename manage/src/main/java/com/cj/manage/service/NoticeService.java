@@ -1,20 +1,19 @@
-package com.cj.mq_service.service;
+package com.cj.manage.service;
 
 import com.cj.common.vo.ResultVO;
 import com.cj.common.vo.SendNoticeVO;
 
 /**
- * 通知服务
+ * 通知管理
  */
 public interface NoticeService {
 
-
     /**
-     * 给一个人发送消息
-     * @param sendNoticeVO 请求vo
+     * 发送通知
+     *
      * @return {@link ResultVO}
      */
-    void sendNotice(SendNoticeVO sendNoticeVO);
+    ResultVO sendNotice(SendNoticeVO sendNoticeVO);
 
 
 }

@@ -7,6 +7,7 @@ import com.cj.manage.vo.UserSearchVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,9 +22,14 @@ public class UserController {
 
     @GetMapping("/search")
     @ApiOperation("条件查询")
-    private ResultVO search(@ModelAttribute UserSearchVO userSearchVO){
-        if (userSearchVO.getPageNum() == null){
+    private ResultVO search(@RequestParam String name, @RequestParam String status, @RequestParam String pageNum){
+        UserSearchVO userSearchVO = new UserSearchVO();
+        userSearchVO.setName(name);
+        userSearchVO.setStatus(status);
+        if (StringUtils.isEmpty(pageNum)){
             userSearchVO.setPageNum(DEFAULT_PAGE_NUM);
+        }else {
+            userSearchVO.setPageNum(Integer.valueOf(pageNum));
         }
         return userService.search(userSearchVO);
     }

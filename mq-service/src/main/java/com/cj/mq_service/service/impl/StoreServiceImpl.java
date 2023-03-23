@@ -19,7 +19,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void updateStore(String msg) {
-        String exchangeName = FanoutConfig.FANOUT_EXCHANGE_NAME;
+        String exchangeName = FanoutConfig.STORE_EXCHANGE_NAME;
         String routingKey = "";
         //消息回调
         CorrelationData correlationData = MqSendUtils.callbackUtil(exchangeName, routingKey, msg, rabbitTemplate);

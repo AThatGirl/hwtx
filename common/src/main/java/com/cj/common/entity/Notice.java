@@ -22,6 +22,8 @@ public class Notice {
     public static final String EXPIRE_STATUS = "过期";
     public static final String DELETE_STATUS = "删除";
 
+    public static final String ALL_USER = "全体成员";
+
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
@@ -34,5 +36,7 @@ public class Notice {
     private String status;
 
     private String createTime;
+
+    private String storeId;
 
 }

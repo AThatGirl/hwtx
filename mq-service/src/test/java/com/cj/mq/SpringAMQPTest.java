@@ -17,7 +17,7 @@ public class SpringAMQPTest {
 
     @Test
     public void testQueue(){
-        String queueName = FanoutConfig.FANOUT_QUEUE_NAME;
+        String queueName = FanoutConfig.STORE_QUEUE_NAME;
         String message = "hello, spring amqp";
         rabbitTemplate.convertAndSend(queueName, message);
     }
