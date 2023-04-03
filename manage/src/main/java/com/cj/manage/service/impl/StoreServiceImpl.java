@@ -4,16 +4,22 @@ import com.cj.common.en.CommonError;
 import com.cj.common.entity.Store;
 import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.StoreMapper;
+import com.cj.common.mapper.UserMapper;
 import com.cj.common.vo.ResultVO;
 import com.cj.manage.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class StoreServiceImpl implements StoreService {
 
     @Autowired
     private StoreMapper storeMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public ResultVO search(String id) {
@@ -22,9 +28,17 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public ResultVO searchAllStore() {
+        //分页，每页一个门店信息
+        List<Store> stores = storeMapper.selectList(null);
+        return ResultVO.success().setData(stores);
+    }
+
+
+    @Override
     public ResultVO changeStoreInfo(Store store) {
         int res = storeMapper.updateById(store);
-        if (res < 0){
+        if (res < 0) {
             ClassException.cast(CommonError.UPDATE_ERROR);
         }
         return ResultVO.success();

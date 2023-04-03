@@ -25,7 +25,7 @@
                 update_time,
                 employee_id,
                 name,
-                career
+                written.store_id
         from written
         inner join user
         on written.employee_id = user.id
@@ -33,11 +33,11 @@
         <if test="name != null and name != ''">
             user.name = #{name} and
         </if>
-        <if test="status!= null and status != ''">
+        <if test="status != null and status != ''">
             written.status = #{status} and
         </if>
-        1 = 1
-        limit 10 offset #{pageNum}
+        written.store_id = #{storeId}
+        limit 10 offset #{page}
     </select>
     <select id="getTotalNum" resultType="int" parameterType="com.cj.common.vo.WrittenSearchVO">
         select count(*)
@@ -51,7 +51,7 @@
         <if test="status != null and status != ''">
             written.status = #{status} and
         </if>
-        1 = 1
+        written.store_id = #{storeId}
     </select>
 
 </mapper>

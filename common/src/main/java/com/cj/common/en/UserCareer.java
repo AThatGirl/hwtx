@@ -17,14 +17,21 @@ public enum UserCareer {
      */
     ADMIN("管理员"),
     /**
+     * 普通店员
+     */
+    ORDINARY("普通店员"),
+    /**
      * 收银员
      */
     CASHIER("收银员");
 
+
     private final String career;
+
     UserCareer(String career) {
         this.career = career;
     }
+
     public String getCareer() {
         return career;
     }

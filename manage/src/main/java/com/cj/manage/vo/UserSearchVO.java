@@ -15,13 +15,18 @@ public class UserSearchVO {
 
 
     /**
+     * 页数
+     */
+    private Integer page;
+
+    /**
      * 状态
      */
     private String status;
 
     /**
-     * 页数
+     * 门店id
      */
-    private Integer pageNum;
+    private String storeId;
 
 }

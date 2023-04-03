@@ -19,6 +19,7 @@ public class WrittenVO {
 
     private String endTime;
 
+    private String storeId;
 
 
 }

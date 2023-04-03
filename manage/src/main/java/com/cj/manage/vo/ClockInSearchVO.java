@@ -11,7 +11,7 @@ public class ClockInSearchVO {
     /**
      * 门店id
      */
-    private String id;
+    private String storeId;
 
     /**
      * 员工姓名
@@ -21,12 +21,16 @@ public class ClockInSearchVO {
     /**
      * 状态
      */
-    private String status;
+    private String signType;
 
     /**
      * 具体打卡日期
      */
-    private String date;
+    private String signTime;
+    /**
+     * 页码
+     */
+    private String page;
 
 
 }

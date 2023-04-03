@@ -36,5 +36,7 @@ public class WorkForm implements Serializable {
 
     private String employeeId;
 
+    private String storeId;
+
 
 }

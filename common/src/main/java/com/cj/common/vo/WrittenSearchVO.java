@@ -23,7 +23,12 @@ public class WrittenSearchVO {
     /**
      * 页数
      */
-    private Integer pageNum;
+    private Integer page;
+
+    /**
+     * 门店id
+     */
+    private String storeId;
 
 
 }

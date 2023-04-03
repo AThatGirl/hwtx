@@ -1,6 +1,7 @@
 package com.cj.written.service;
 
 import com.cj.common.vo.ResultVO;
+import com.cj.written.vo.WrittenUpdateVO;
 import com.cj.written.vo.WrittenVO;
 
 /**
@@ -22,18 +23,26 @@ public interface WrittenService {
     /**
      * 删除请假条
      *
-     * @param ids id
+     * @param ids ids
      * @return {@link ResultVO}
      */
     ResultVO deleteWritten(String[] ids);
 
 
     /**
-     * 通过id获取请假条
+     * 通过id获取请假条，分页
      *
      * @param id id
+     * @param page 页码
      * @return {@link ResultVO}
      */
-    ResultVO getWrittenById(String id);
+    ResultVO getWrittenById(String id, String page);
+
+    /**
+     *  修改请假条
+     * @param writtenUpdateVO 修改请假条VO
+     * @return {@link ResultVO}
+     */
+    ResultVO updateWrittenById(WrittenUpdateVO writtenUpdateVO);
 
 }

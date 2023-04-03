@@ -32,5 +32,6 @@ public class Suggest implements Serializable {
 
     private String subTime;
 
+    private String storeId;
 
 }

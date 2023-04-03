@@ -24,7 +24,7 @@ public class WrittenServiceImpl implements WrittenService {
 
     @Override
     public ResultVO search(WrittenSearchVO writtenSearchVO) {
-        writtenSearchVO.setPageNum((writtenSearchVO.getPageNum() - 1) * 10);
+        writtenSearchVO.setPage((writtenSearchVO.getPage() - 1) * 10);
         List<WrittenResponseVO> writtens = writtenMapper.searchWrittens(writtenSearchVO);
         Map<String, Object> map = new HashMap<>();
         map.put("total", writtenMapper.getTotalNum(writtenSearchVO));

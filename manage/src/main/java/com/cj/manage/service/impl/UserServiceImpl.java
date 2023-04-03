@@ -48,9 +48,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVO search(UserSearchVO userSearchVO) {
 
-        Page<User> page = new Page<>(userSearchVO.getPageNum(), 10);
+        Page<User> page = new Page<>(userSearchVO.getPage(), 10);
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.ne("career", UserCareer.SUPER_ADMIN).ne("career", UserCareer.ADMIN);
+        userQueryWrapper.ne("career", UserCareer.SUPER_ADMIN.getCareer()).ne("career", UserCareer.ADMIN.getCareer());
         //根据名字查询
         if (!StringUtils.isEmpty(userSearchVO.getName())) {
             userQueryWrapper.eq("name", userSearchVO.getName());
@@ -58,13 +58,14 @@ public class UserServiceImpl implements UserService {
         if (!StringUtils.isEmpty(userSearchVO.getStatus())) {
             userQueryWrapper.eq("status", userSearchVO.getStatus());
         }
-
+        userQueryWrapper.eq("store_id", userSearchVO.getStoreId());
         userMapper.selectPage(page, userQueryWrapper);
 
         Map<String, Object> map = new HashMap<>();
         map.put("total", page.getTotal());
         map.put("users", page.getRecords());
         return ResultVO.success().setData(map);
+
     }
 
     @Override
@@ -81,6 +82,7 @@ public class UserServiceImpl implements UserService {
     public ResultVO deleteUser(String[] ids) {
         try {
             List<String> list = Arrays.asList(ids);
+            // TODO delete
             userMapper.deleteBatchIds(Arrays.asList(ids));
             clockInMapper.delete(new QueryWrapper<ClockIn>().in("employee_id", list));
             noticeMapper.delete(new QueryWrapper<Notice>().in("sender_id", list).or().in("receiver_id", list));

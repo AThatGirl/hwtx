@@ -17,7 +17,7 @@ public interface SuggestService {
      * @param id id
      * @return {@link ResultVO}
      */
-    ResultVO getSuggestById(String id);
+    ResultVO getSuggestById(String id, String page);
 
 
     /**
@@ -32,10 +32,10 @@ public interface SuggestService {
     /**
      * 删除建议通过id
      *
-     * @param id id
+     * @param ids ids
      * @return {@link ResultVO}
      */
-    ResultVO deleteSuggestById(String id);
+    ResultVO deleteSuggestById(String[] ids);
 
 
 }

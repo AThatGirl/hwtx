@@ -29,6 +29,12 @@ public class PreferenceController {
         return preferService.changePrefer(preference);
     }
 
+    @PostMapping("/addPrefer")
+    @ApiOperation("添加偏好")
+    public ResultVO addPrefer(@RequestBody Preference preference){
+        return preferService.addPrefer(preference);
+    }
+
 
 
 

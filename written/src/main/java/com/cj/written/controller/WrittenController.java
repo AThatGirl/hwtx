@@ -3,6 +3,7 @@ package com.cj.written.controller;
 
 import com.cj.common.vo.ResultVO;
 import com.cj.written.service.WrittenService;
+import com.cj.written.vo.WrittenUpdateVO;
 import com.cj.written.vo.WrittenVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,14 +27,21 @@ public class WrittenController {
 
     @PostMapping("/deleteWritten")
     @ApiOperation("删除请假条")
-    public ResultVO deleteWritten(@RequestBody String[] ids){
+    public ResultVO deleteWritten(@RequestBody String[] ids) {
         return writtenService.deleteWritten(ids);
     }
 
-    @GetMapping("/getWrittenById/{id}")
+    @GetMapping("/getWrittenById/{id}/{page}")
     @ApiOperation("通过用户id获取请假条")
-    public ResultVO getWrittenById(@PathVariable String id){
-        return writtenService.getWrittenById(id);
+    public ResultVO getWrittenById(@PathVariable String id, @PathVariable String page) {
+        return writtenService.getWrittenById(id, page);
     }
+
+    @PostMapping("/updateWrittenById")
+    @ApiOperation("修改请假条")
+    public ResultVO updateWrittenById(@RequestBody WrittenUpdateVO writtenUpdateVO) {
+        return writtenService.updateWrittenById(writtenUpdateVO);
+    }
+
 
 }

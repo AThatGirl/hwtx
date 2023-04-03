@@ -23,6 +23,9 @@ public class ClockIn implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static String SIGN_UP = "上班";
+    public static String SIGN_DOWN = "下班";
+
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
@@ -34,5 +37,6 @@ public class ClockIn implements Serializable {
 
     private String employeeId;
 
+    private String storeId;
 
 }

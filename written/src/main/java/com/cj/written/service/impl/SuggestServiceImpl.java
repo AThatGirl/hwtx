@@ -1,10 +1,12 @@
 package com.cj.written.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cj.common.en.CommonError;
 import com.cj.common.entity.Suggest;
 import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.SuggestMapper;
+import com.cj.common.utils.DateUtils;
 import com.cj.common.utils.UUIDUtils;
 import com.cj.common.vo.ResultVO;
 import com.cj.written.service.SuggestService;
@@ -12,7 +14,9 @@ import com.cj.written.vo.SuggestVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class SuggestServiceImpl implements SuggestService {
@@ -21,17 +25,17 @@ public class SuggestServiceImpl implements SuggestService {
     private SuggestMapper suggestMapper;
 
     @Override
-    public ResultVO getSuggestById(String id) {
+    public ResultVO getSuggestById(String id, String page) {
+        //分页
+        Page<Suggest> suggestPage = new Page<>(Integer.parseInt(page), 10);
         QueryWrapper<Suggest> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("employee_id", id);
-        List<Suggest> suggests = null;
-        try {
-            suggests = suggestMapper.selectList(queryWrapper);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultVO.fail().setMessage("获取失败");
-        }
-        return ResultVO.success().setMessage(suggests.size() + "条建议").setData(suggests);
+        suggestMapper.selectPage(suggestPage, queryWrapper);
+        Map<String, Object> map = new HashMap<>();
+        map.put("suggests", suggestPage.getRecords());
+        map.put("total", suggestPage.getTotal());
+
+        return ResultVO.success().setData(map);
     }
 
     @Override
@@ -42,23 +46,22 @@ public class SuggestServiceImpl implements SuggestService {
         suggest.setId(UUIDUtils.getId());
         suggest.setContent(suggestVO.getContent());
         suggest.setEmployeeId(suggestVO.getId());
-        suggest.setSubTime(suggestVO.getSubmitTime());
-
+        suggest.setSubTime(DateUtils.getNowDate());
+        suggest.setStoreId(suggestVO.getStoreId());
         int res = suggestMapper.insert(suggest);
-        if (res < 0){
+        if (res < 0) {
             ClassException.cast(CommonError.INSERT_ERROR);
         }
-        return ResultVO.success().setMessage("提交成功");
+        return ResultVO.success();
     }
 
     @Override
-    public ResultVO deleteSuggestById(String id) {
-
-        int res = suggestMapper.deleteById(id);
-        if (res < 0){
+    public ResultVO deleteSuggestById(String[] ids) {
+        int res = suggestMapper.deleteBatchIds(Arrays.asList(ids));
+        if (res < 0) {
             ClassException.cast(CommonError.DELETE_ERROR);
         }
-        return ResultVO.success().setMessage("删除成功");
+        return ResultVO.success();
     }
 
 

@@ -28,5 +28,11 @@ public class StoreController {
         return storeService.changeStoreInfo(store);
     }
 
+    // TODO 放行
+    @GetMapping("/searchAllStore")
+    @ApiOperation("查询所有门店")
+    public ResultVO searchAllStore(){
+        return storeService.searchAllStore();
+    }
 
 }

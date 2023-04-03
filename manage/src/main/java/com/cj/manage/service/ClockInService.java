@@ -16,5 +16,21 @@ public interface ClockInService {
     ResultVO getClockIn(ClockInSearchVO clockInSearchVO);
 
 
+    /**
+     * 修改打卡类型
+     * @param id id
+     * @param type 类型
+     * @return {@link ResultVO}
+     */
+    ResultVO changeClockInType(String id, String type);
+
+
+    /**
+     * 删除打卡记录
+     * @param ids id数组
+     * @return {@link ResultVO}
+     */
+    ResultVO deleteClockIn(String[] ids);
+
 
 }

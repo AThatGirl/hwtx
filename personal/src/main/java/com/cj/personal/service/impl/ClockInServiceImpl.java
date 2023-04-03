@@ -55,11 +55,12 @@ public class ClockInServiceImpl implements ClockInService {
         clockIn.setSignType(platPunch.getSignType());
         clockIn.setInfo(platPunch.getInfo());
         clockIn.setEmployeeId(platPunch.getEmployeeId());
+        clockIn.setStoreId(platPunch.getStoreId());
         int res = clockInMapper.insert(clockIn);
         if (res < 0){
             ClassException.cast(CommonError.INSERT_ERROR);
         }
-        return ResultVO.success().setMessage("打卡成功").setData(clockIn);
+        return ResultVO.success();
 
     }
 

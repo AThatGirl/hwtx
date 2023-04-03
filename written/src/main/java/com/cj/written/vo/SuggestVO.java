@@ -22,9 +22,9 @@ public class SuggestVO {
     private String content;
 
     /**
-     * 提交时间
+     * 门店id
      */
-    private String submitTime;
+    private String storeId;
 
 
 }

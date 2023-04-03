@@ -32,12 +32,11 @@ public class UploadServiceImpl implements UploadService {
             user.setAvatar(fileUrl);
             //更新数据库
             userMapper.updateById(user);
-            return ResultVO.success().setMessage("上传成功").setData(fileUrl);
+            return ResultVO.success().setData(fileUrl);
         } catch (IOException e) {
-            return ResultVO.fail().setMessage("上传失败");
+            return ResultVO.fail();
         } finally {
             ossClientUtils.closeClient();
         }
-
     }
 }

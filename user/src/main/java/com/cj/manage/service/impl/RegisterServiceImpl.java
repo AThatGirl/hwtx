@@ -3,8 +3,10 @@ package com.cj.manage.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cj.common.en.CommonError;
 import com.cj.common.en.UserCareer;
+import com.cj.common.entity.Store;
 import com.cj.common.entity.User;
 import com.cj.common.exception.ClassException;
+import com.cj.common.mapper.StoreMapper;
 import com.cj.common.mapper.UserMapper;
 import com.cj.common.utils.Md5Utils;
 import com.cj.common.utils.UUIDUtils;
@@ -14,6 +16,7 @@ import com.cj.manage.service.RegisterService;
 import com.cj.manage.vo.RegisterVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
@@ -21,6 +24,9 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private StoreMapper storeMapper;
 
     @Autowired
     private MqServiceFeignClient mqServiceFeignClient;
@@ -43,6 +49,17 @@ public class RegisterServiceImpl implements RegisterService {
         //判断是否是超级管理员注册
         if (UserCareer.fromCareer(registerVO.getCareer()) == UserCareer.SUPER_ADMIN) {
             user.setPass(User.YES_PASS);
+            Store store = new Store();
+            store.setId(UUIDUtils.getId());
+            store.setAddress("");
+            store.setSize("0");
+            store.setEmployeeNum(0);
+            store.setName("新建门店");
+            int res = storeMapper.insert(store);
+            if (res < 0) {
+                ClassException.cast(CommonError.INSERT_ERROR);
+            }
+            user.setStoreId(store.getId());
         } else {
             //其他
             user.setPass(User.PASSING);
@@ -54,10 +71,12 @@ public class RegisterServiceImpl implements RegisterService {
         user.setBirthday(registerVO.getBirthday());
         user.setPhone(registerVO.getPhone());
         user.setPassword(Md5Utils.md5(registerVO.getPassword()));
-        user.setAvatar("default.png");
+        user.setAvatar("https://jerry273.oss-cn-hangzhou.aliyuncs.com/avatars/default.jpg");
         user.setCareer(registerVO.getCareer());
         user.setEmail(registerVO.getEmail());
-        user.setStoreId(registerVO.getStoreId());
+        if (!StringUtils.isEmpty(registerVO.getStoreId())) {
+            user.setStoreId(registerVO.getStoreId());
+        }
         int res = userMapper.insert(user);
         if (res < 0) {
             ClassException.cast(CommonError.INSERT_ERROR);

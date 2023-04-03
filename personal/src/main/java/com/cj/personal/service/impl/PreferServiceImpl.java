@@ -5,6 +5,7 @@ import com.cj.common.en.CommonError;
 import com.cj.common.entity.Preference;
 import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.PreferenceMapper;
+import com.cj.common.utils.UUIDUtils;
 import com.cj.common.vo.ResultVO;
 import com.cj.personal.service.PreferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,16 @@ public class PreferServiceImpl implements PreferService {
         int res = preferenceMapper.updateById(preference);
         if (res < 0) {
             ClassException.cast(CommonError.UPDATE_ERROR);
+        }
+        return ResultVO.success();
+    }
+
+    @Override
+    public ResultVO addPrefer(Preference preference) {
+        preference.setId(UUIDUtils.getId());
+        int res = preferenceMapper.insert(preference);
+        if (res < 0){
+            ClassException.cast(CommonError.INSERT_ERROR);
         }
         return ResultVO.success();
     }

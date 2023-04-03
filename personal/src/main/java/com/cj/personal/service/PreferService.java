@@ -24,5 +24,11 @@ public interface PreferService {
      */
     ResultVO changePrefer(Preference preference);
 
+    /**
+     * 添加偏好
+     * @param preference 偏好
+     * @return {@link ResultVO}
+     */
+    ResultVO addPrefer(Preference preference);
 
 }

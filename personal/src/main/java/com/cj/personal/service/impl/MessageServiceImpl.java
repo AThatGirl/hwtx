@@ -27,6 +27,6 @@ public class MessageServiceImpl implements MessageService {
         if (res < 0){
             ClassException.cast(CommonError.UPDATE_ERROR);
         }
-        return ResultVO.success().setMessage("更新成功");
+        return ResultVO.success();
     }
 }

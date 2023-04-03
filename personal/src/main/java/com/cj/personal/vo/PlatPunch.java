@@ -26,5 +26,8 @@ public class PlatPunch {
     private String signType;
     //其他信息
     private String info;
+    //门店id
+    private String storeId;
+
 
 }

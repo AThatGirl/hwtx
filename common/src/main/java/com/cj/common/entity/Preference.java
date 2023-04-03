@@ -26,7 +26,7 @@ public class Preference implements Serializable {
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
-    private String range;
+    private String rangeTime;
 
     private String startTime;
 
@@ -39,6 +39,8 @@ public class Preference implements Serializable {
     private String dinnerTime;
 
     private String employeeId;
+
+    private String storeId;
 
 
 }

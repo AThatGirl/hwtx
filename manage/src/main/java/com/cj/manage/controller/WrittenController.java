@@ -24,11 +24,11 @@ public class WrittenController {
     @Autowired
     private WrittenService writtenService;
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     @ApiOperation(value = "根据名称或状态查询")
-    public ResultVO search(@ModelAttribute WrittenSearchVO writtenSearchVO){
-        if (writtenSearchVO.getPageNum() == null){
-            writtenSearchVO.setPageNum(DEFAULT_PAGE_NUM);
+    public ResultVO search(@RequestBody WrittenSearchVO writtenSearchVO){
+        if (writtenSearchVO.getPage() == null){
+            writtenSearchVO.setPage(DEFAULT_PAGE_NUM);
         }
         return writtenService.search(writtenSearchVO);
     }

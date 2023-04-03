@@ -18,6 +18,12 @@ public interface StoreService {
 
 
     /**
+     * 获取所有的门店信息
+     * @return {@link ResultVO}
+     */
+    ResultVO searchAllStore();
+
+    /**
      * 修改门店信息
      * @param store 门店
      * @return {@link ResultVO}

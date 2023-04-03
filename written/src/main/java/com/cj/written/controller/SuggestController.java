@@ -24,24 +24,23 @@ public class SuggestController {
     private SuggestService suggestService;
 
 
-    @GetMapping("/getSuggestById/{id}")
+    @GetMapping("/getSuggestById/{id}/{page}")
     @ApiOperation("获取用户建议")
-    public ResultVO getSuggestById(@PathVariable String id){
-        return suggestService.getSuggestById(id);
+    public ResultVO getSuggestById(@PathVariable String id, @PathVariable String page) {
+        return suggestService.getSuggestById(id, page);
     }
 
     @PostMapping("/submitSuggest")
     @ApiOperation("提交建议")
-    public ResultVO submitSuggest(@RequestBody SuggestVO suggestVO){
+    public ResultVO submitSuggest(@RequestBody SuggestVO suggestVO) {
         return suggestService.submitSuggest(suggestVO);
     }
 
     @PostMapping("/deleteSuggestById")
     @ApiOperation("删除建议")
-    public ResultVO deleteSuggestById(@RequestBody String id){
-        return suggestService.deleteSuggestById(id);
+    public ResultVO deleteSuggestById(@RequestBody String[] ids) {
+        return suggestService.deleteSuggestById(ids);
     }
-
 
 
 }
