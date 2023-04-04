@@ -14,7 +14,34 @@ spring:
     username: zhumeng
     password: 123456
     virtual-host: /
-#    listener:
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        service: mq-consumer
+  # 配置邮件
+mail:
+  configs:
+    # 账号
+    - username: 2046188606@qq.com
+      password: cdltejgfvjoabhhd
+      host: smtp.qq.com
+      port: 25
+      protocol: smtp
+      default-encoding: UTF-8
+    # 账号A
+#    - username: fapiaoa@QQ.com
+#      password: 123456
+#      host: smtp.qq.com
+#      port: 25
+#      protocol: smtp
+#      default-encoding: UTF-8
+  #  mail:
+  #    host: smtp.qq.com
+  #    username: 2046188606@qq.com
+  #    password: cdltejgfvjoabhhd
+  #    default-encoding: UTF-8
+  #    listener:
 #      simple:
 #        prefetch: 1
 #        retry:
@@ -24,8 +51,3 @@ spring:
 #          max-attempts: 3 #最大重试次数
 #          stateless: true # true无状态; false有状态。如果业务中包含事务，这里改为false
 
-  cloud:
-    nacos:
-      server-addr: localhost:8848
-      discovery:
-        service: mq-consumer

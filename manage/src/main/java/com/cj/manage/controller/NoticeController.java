@@ -21,7 +21,7 @@ public class NoticeController {
     private NoticeService noticeService;
 
     @PostMapping("/sendNotice")
-    @ApiOperation("查询门店信息")
+    @ApiOperation("发送消息通知")
     public ResultVO sendNotice(@RequestBody SendNoticeVO sendNoticeVO) {
         return noticeService.sendNotice(sendNoticeVO);
     }
@@ -30,6 +30,12 @@ public class NoticeController {
     @ApiOperation("获取所有通知")
     public ResultVO getNoticeForPage(@RequestBody NoticeVO noticeVO) {
         return noticeService.getNoticeForPage(noticeVO);
+    }
+
+    @PostMapping("/deleteNotice")
+    @ApiOperation("删除消息通知")
+    public ResultVO deleteNotice(@RequestBody String[] ids){
+        return noticeService.deleteNotice(ids);
     }
 
     @PostMapping("/readNotice")
