@@ -23,7 +23,9 @@ public enum UserCareer {
     /**
      * 收银员
      */
-    CASHIER("收银员");
+    CASHIER("收银员"),
+
+    SECURITY_STAFF("保安");
 
 
     private final String career;

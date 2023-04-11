@@ -9,13 +9,18 @@ import com.cj.common.utils.UUIDUtils;
 import com.cj.common.vo.SendNoticeVO;
 import com.cj.mq_consumer.config.MailSenderConfig;
 import com.cj.mq_consumer.service.NoticeService;
+import com.cj.mq_consumer.utils.SendEmailUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class NoticeServiceImpl implements NoticeService {
+
+    public static String emailNotice = "通知邮件";
 
 
     @Autowired
@@ -47,30 +52,28 @@ public class NoticeServiceImpl implements NoticeService {
                 String senderEmail = userMapper.selectById(sendNoticeVO.getSenderId()).getEmail();
                 String receiverEmail = userMapper.selectById(sendNoticeVO.getReceiverId()).getEmail();
                 //发送邮箱
-                sendToEmail(senderEmail, receiverEmail, sendNoticeVO.getContent());
+                SendEmailUtils.sendToEmail(senderEmail, receiverEmail, sendNoticeVO.getContent(), emailNotice, senderConfig);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            log.info("邮箱发送失败，消息为{}", msg);
         }
     }
 
-    //发送到邮箱
-    public void sendToEmail(String senderEmail, String receiverEmail, String content) {
-        JavaMailSenderImpl mailSender = senderConfig.getSender(senderEmail);
-
-        //创建SimpleMailMessage对象
-        SimpleMailMessage message = new SimpleMailMessage();
-        //邮件发送人
-        message.setFrom(senderEmail);
-        //邮件接收人
-        message.setTo(receiverEmail);
-        //邮件主题
-        message.setSubject("通知邮件");
-        //邮件内容
-        message.setText(content);
-        //发送邮件
-        mailSender.send(message);
+    @Override
+    public void sendBlessing(String msg) {
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(msg);
+            String senderEmail = jsonObject.getString("senderEmail");
+            String receiverEmail = jsonObject.getString("receiverEmail");
+            String content = jsonObject.getString("content");
+            String type = "祝福信息";
+            SendEmailUtils.sendToEmail(senderEmail, receiverEmail, content, type, senderConfig);
+            log.info("接收祝福人的邮箱为{}", receiverEmail);
+        }catch (Exception e){
+            //防止邮箱不存在，导致消息无法消费
+            e.printStackTrace();
+            log.info("邮箱发送失败，消息为{}", msg);
+        }
     }
-
-
 }

@@ -14,5 +14,10 @@ public interface NoticeService {
      */
     void sendNotice(SendNoticeVO sendNoticeVO);
 
+    /**
+     * 发送祝福
+     * @param param
+     */
+     void sendBlessing(String param);
 
 }

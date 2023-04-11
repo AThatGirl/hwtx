@@ -7,6 +7,7 @@ import com.cj.common.utils.UUIDUtils;
 import com.cj.common.vo.ResultVO;
 
 import com.cj.personal.service.ClockInService;
+import com.cj.personal.vo.GestureVO;
 import com.cj.personal.vo.PlatPunch;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,8 +33,12 @@ public class ClockInController {
     @PostMapping("/localPunch")
     @ApiOperation("地理位置打卡")
     public ResultVO localPunch(@RequestBody PlatPunch platPunch){
-
-        return ResultVO.success().setMessage("打卡成功");
+        return clockInService.getPunch(platPunch);
+    }
+    @PostMapping("/gestureClockIn")
+    @ApiOperation("地理签到")
+    public ResultVO gestureClockIn(@RequestBody GestureVO gestureVO){
+        return clockInService.gestureClockIn(gestureVO);
     }
 
 

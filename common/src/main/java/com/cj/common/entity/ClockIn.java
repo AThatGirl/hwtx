@@ -25,6 +25,7 @@ public class ClockIn implements Serializable {
 
     public static String SIGN_UP = "上班";
     public static String SIGN_DOWN = "下班";
+    public static String GESTURE = "gesture";
 
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;

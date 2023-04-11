@@ -7,7 +7,12 @@ import com.cj.manage.vo.ClockInSearchVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/manage/clockIn")
@@ -26,7 +31,9 @@ public class ClockInController {
 
     @PostMapping("/changeClockInType")
     @ApiOperation("修改打卡类型")
-    public ResultVO changeClockInType(@RequestParam("id") String id, @RequestParam("signType") String signType) {
+    public ResultVO changeClockInType(@RequestBody Map<String, String> map) {
+        String id = map.get("id");
+        String signType = map.get("signType");
         return clockInService.changeClockInType(id, signType);
     }
 
@@ -36,5 +43,11 @@ public class ClockInController {
         return clockInService.deleteClockIn(ids);
     }
 
+    @PostMapping("/publishGesture")
+    @ApiOperation("发布手势签到")
+    public ResultVO publishGesture(@RequestBody Map<String, String> map){
+        String gesture = map.get("gesture");
+        return clockInService.publishGesture(gesture);
+    }
 
 }

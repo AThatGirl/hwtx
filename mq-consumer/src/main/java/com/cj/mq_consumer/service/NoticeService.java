@@ -12,5 +12,10 @@ public interface NoticeService {
      */
     void sendNotice(String msg);
 
+    /**
+     * 发送祝福
+     * @param msg
+     */
+    void sendBlessing(String msg);
 
 }

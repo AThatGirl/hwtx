@@ -26,5 +26,11 @@ public class NoticeController {
         return ResultVO.success();
     }
 
+    @PostMapping("/sendBlessing")
+    @ApiOperation("发送祝福语")
+    public ResultVO sendBlessing(@RequestBody String params){
+        noticeService.sendBlessing(params);
+        return ResultVO.success();
+    }
 
 }

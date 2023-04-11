@@ -54,7 +54,7 @@ public class MailSenderConfig {
             }
         }
         // 随机返回一个JavaMailSender
-        return null;
+        return senderList.get(0);
     }
 
     /**

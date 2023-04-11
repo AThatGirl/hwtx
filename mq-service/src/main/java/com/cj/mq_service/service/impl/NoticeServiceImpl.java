@@ -3,6 +3,7 @@ package com.cj.mq_service.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.cj.mq_service.common.MqSendUtils;
 import com.cj.mq_service.config.FanoutConfig;
+import com.cj.mq_service.config.SimpleConfig;
 import com.cj.mq_service.service.NoticeService;
 import com.cj.common.vo.SendNoticeVO;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class NoticeServiceImpl implements NoticeService {
+
+
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -28,6 +31,13 @@ public class NoticeServiceImpl implements NoticeService {
         //消息回调
         CorrelationData correlationData = MqSendUtils.callbackUtil(exchangeName, routingKey, msg, rabbitTemplate);
         rabbitTemplate.convertAndSend(exchangeName, routingKey, msg, correlationData);
+        log.info("发送成功！");
+    }
+    @Override
+    public void sendBlessing(String param) {
+        //对象转json
+        String msg = param;
+        rabbitTemplate.convertAndSend(SimpleConfig.BLESSING_QUEUE_NAME, msg);
         log.info("发送成功！");
     }
 }

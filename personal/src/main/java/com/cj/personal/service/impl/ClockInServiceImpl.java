@@ -10,12 +10,13 @@ import com.cj.common.utils.UUIDUtils;
 import com.cj.common.vo.ResultVO;
 import com.cj.personal.service.ClockInService;
 import com.cj.personal.utils.LocationUtils;
+import com.cj.personal.vo.GestureVO;
 import com.cj.personal.vo.PlatPunch;
 import org.gavaghan.geodesy.Ellipsoid;
 import org.gavaghan.geodesy.GlobalCoordinates;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Service
 public class ClockInServiceImpl implements ClockInService {
@@ -23,6 +24,9 @@ public class ClockInServiceImpl implements ClockInService {
 
     @Autowired
     private ClockInMapper clockInMapper;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
 
     /*
@@ -61,7 +65,28 @@ public class ClockInServiceImpl implements ClockInService {
             ClassException.cast(CommonError.INSERT_ERROR);
         }
         return ResultVO.success();
+    }
 
+    @Override
+    public ResultVO gestureClockIn(GestureVO gestureVO) {
+        String realGesture = (String) redisTemplate.opsForValue().get(ClockIn.GESTURE);
+        if (!gestureVO.getGesture().equals(realGesture)){
+            return ResultVO.fail().setMessage("签到码错误或过期");
+        }
+        //查询是否已经签到了
+        ClockIn clockIn = clockInMapper.selectOne(new QueryWrapper<ClockIn>().apply("DATE(sign_time) = CURDATE()").eq("sign_type", gestureVO.getSignType()));
+        if(clockIn != null){
+            return ResultVO.fail().setMessage("不能重复签到");
+        }
+        ClockIn clockInRes = new ClockIn();
+        clockInRes.setId(UUIDUtils.getId());
+        clockInRes.setSignTime(DateUtils.getNowDate());
+        clockInRes.setSignType(gestureVO.getSignType());
+        clockInRes.setInfo(gestureVO.getInfo());
+        clockInRes.setEmployeeId(gestureVO.getEmployeeId());
+        clockInRes.setStoreId(gestureVO.getStoreId());
+        clockInMapper.insert(clockInRes);
+        return ResultVO.success();
     }
 
 

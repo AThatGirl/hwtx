@@ -13,6 +13,7 @@
         <module>manage</module>
         <module>mq-service</module>
         <module>mq-consumer</module>
+        <module>care</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

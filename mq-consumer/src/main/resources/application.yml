@@ -24,7 +24,7 @@ mail:
   configs:
     # 账号
     - username: 2046188606@qq.com
-      password: cdltejgfvjoabhhd
+      password: szxcildhozuiegde
       host: smtp.qq.com
       port: 25
       protocol: smtp

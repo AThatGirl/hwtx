@@ -32,5 +32,12 @@ public interface ClockInService {
      */
     ResultVO deleteClockIn(String[] ids);
 
+    /**
+     * 发布手势签到
+     * @param gesture
+     * @return
+     */
+    ResultVO publishGesture(String gesture);
+
 
 }

@@ -1,6 +1,7 @@
 package com.cj.personal.service;
 
 import com.cj.common.vo.ResultVO;
+import com.cj.personal.vo.GestureVO;
 import com.cj.personal.vo.PlatPunch;
 
 /**
@@ -12,8 +13,15 @@ import com.cj.personal.vo.PlatPunch;
 public interface ClockInService {
 
 
-    /*
-        活动定位打卡功能 */
+    /**
+     *活动定位打卡功能 */
     ResultVO getPunch(PlatPunch platPunch);
+
+    /**
+     * 手势签到
+     * @param gestureVO
+     * @return
+     */
+    ResultVO gestureClockIn(GestureVO gestureVO);
 
 }

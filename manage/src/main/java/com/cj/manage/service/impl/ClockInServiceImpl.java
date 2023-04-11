@@ -13,6 +13,7 @@ import com.cj.common.vo.ResultVO;
 import com.cj.manage.service.ClockInService;
 import com.cj.manage.vo.ClockInSearchVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +32,9 @@ public class ClockInServiceImpl implements ClockInService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public ResultVO getClockIn(ClockInSearchVO clockInSearchVO) {
@@ -74,6 +79,14 @@ public class ClockInServiceImpl implements ClockInService {
         if (res < 0) {
             ClassException.cast(CommonError.UPDATE_ERROR);
         }
+        return ResultVO.success();
+    }
+
+    @Override
+    public ResultVO publishGesture(String gesture) {
+        //如果里面有这个手势就删除，重新发布
+        redisTemplate.delete(ClockIn.GESTURE);
+        redisTemplate.opsForValue().set(ClockIn.GESTURE, gesture, 5, TimeUnit.MINUTES);
         return ResultVO.success();
     }
 }
