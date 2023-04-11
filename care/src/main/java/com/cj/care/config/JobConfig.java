@@ -37,7 +37,7 @@ public class JobConfig {
 
     @Bean(initMethod = "init")
     public SpringJobScheduler blessingScheduler(BlessingElasticJob job, CoordinatorRegistryCenter registryCenter) {
-        LiteJobConfiguration jobConfiguration = createJobConfiguration(job.getClass(), "0/10 * * * * ?", 1);
+        LiteJobConfiguration jobConfiguration = createJobConfiguration(job.getClass(), "0 0 8 * * ?", 1);
         return new SpringJobScheduler(job, registryCenter, jobConfiguration);
     }
 

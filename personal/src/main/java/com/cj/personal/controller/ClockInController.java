@@ -1,18 +1,17 @@
 package com.cj.personal.controller;
 
 
-import com.cj.common.entity.ClockIn;
-import com.cj.common.utils.DateUtils;
-import com.cj.common.utils.UUIDUtils;
 import com.cj.common.vo.ResultVO;
-
 import com.cj.personal.service.ClockInService;
 import com.cj.personal.vo.GestureVO;
 import com.cj.personal.vo.PlatPunch;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -36,7 +35,7 @@ public class ClockInController {
         return clockInService.getPunch(platPunch);
     }
     @PostMapping("/gestureClockIn")
-    @ApiOperation("地理签到")
+    @ApiOperation("手势签到")
     public ResultVO gestureClockIn(@RequestBody GestureVO gestureVO){
         return clockInService.gestureClockIn(gestureVO);
     }

@@ -12,9 +12,9 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @MapperScan("com.cj.common.mapper")
 @ComponentScan(basePackages = {"com.cj"})
-public class CareApplication {
+public class CareBootApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CareApplication.class, args);
+        SpringApplication.run(CareBootApplication.class, args);
 
     }
 }
