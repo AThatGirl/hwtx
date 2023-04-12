@@ -28,6 +28,10 @@ spring:
           uri: lb://written
           predicates:
               - Path=/written/**
+        - id: service_schedule
+            uri: lb://service_schedule
+            predicates:
+              - Path=/service_schedule/**
       globalcors:
         corsConfigurations:
           '[/**]':

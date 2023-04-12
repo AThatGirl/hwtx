@@ -14,6 +14,7 @@
         <module>mq-service</module>
         <module>mq-consumer</module>
         <module>care</module>
+        <module>schedule</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -21,6 +22,7 @@
         <version>2.3.9.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
 
     <groupId>org.cj</groupId>
     <artifactId>class</artifactId>
