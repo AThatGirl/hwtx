@@ -42,5 +42,10 @@ public class SuggestController {
         return suggestService.deleteSuggestById(ids);
     }
 
+    @GetMapping("/getAllSuggest/{storeId}")
+    @ApiOperation("获取门店所有建议")
+    public ResultVO getAllSuggest(@PathVariable String storeId){
+        return suggestService.getAllSuggest(storeId);
+    }
 
 }

@@ -31,4 +31,5 @@ public interface StoreService {
     ResultVO changeStoreInfo(Store store);
 
 
+    ResultVO addStore(Store store);
 }

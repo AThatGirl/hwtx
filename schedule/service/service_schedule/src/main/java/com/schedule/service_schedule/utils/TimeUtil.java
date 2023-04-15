@@ -73,17 +73,22 @@ public class TimeUtil {
         LocalTime localTime2=TimeUtil.stringTimeToLocalTime(time2);
         return localTime1.compareTo(localTime2);
     }
-    //计算两个时间间隔
     public static double calculateStringTimeSub(String time1,String time2){
         LocalTime localTime1=TimeUtil.stringTimeToLocalTime(time1);
         LocalTime localTime2=TimeUtil.stringTimeToLocalTime(time2);
         double subTime=0;
         if(localTime1.compareTo(localTime2)==1){
             subTime= localTime1.toSecondOfDay()-localTime2.toSecondOfDay();
+            subTime=subTime/60.0/60.0;
+            if(subTime>=20){
+                subTime=24*60*60.0-localTime1.toSecondOfDay()+localTime2.toSecondOfDay();
+                subTime=subTime/60.0/60.0;
+            }
+
         }else{
             subTime= localTime2.toSecondOfDay()-localTime1.toSecondOfDay();
+            subTime=subTime/60.0/60.0;
         }
-        subTime=subTime/60.0/60.0;
         return subTime;
     }
 }

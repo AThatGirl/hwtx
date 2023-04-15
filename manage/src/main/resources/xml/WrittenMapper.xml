@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cj.common.mapper.WrittenMapper">
+
+<!--    <resultMap id="WrittenResponseVOMap" type="com.cj.common.vo.WrittenResponseVO">-->
+<!--        <id column="id" javaType="string" jdbcType="varchar" property="id"/>-->
+<!--        <result column="reason" javaType="string" jdbcType="varchar" property="reason"/>-->
+<!--        <result column="start_time" javaType="string" jdbcType="varchar" property="startTime"/>-->
+<!--        <result column="end_time" javaType="string" jdbcType="varchar" property="endTime"/>-->
+<!--        <result column="status" javaType="string" jdbcType="varchar" property="status"/>-->
+<!--        <result column="create_time" javaType="string" jdbcType="varchar" property="createTime"/>-->
+<!--        <result column="update_time" javaType="string" jdbcType="varchar" property="updateTime"/>-->
+<!--        <result column="employee_id" javaType="string" jdbcType="varchar" property="employeeId"/>-->
+<!--        <result column="name" javaType="string" jdbcType="varchar" property="name"/>-->
+<!--        <result column="career" javaType="string" jdbcType="varchar" property="career"/>-->
+<!--    </resultMap>-->
+
+    <select id="searchWrittens" resultType="com.cj.common.vo.WrittenResponseVO" parameterType="com.cj.common.vo.WrittenSearchVO">
+        select  written.id,
+                reason,
+                start_time,
+                end_time,
+                status,
+                create_time,
+                update_time,
+                employee_id,
+                name,
+                written.store_id
+        from written
+        inner join user
+        on written.employee_id = user.id
+        where
+        <if test="name != null and name != ''">
+            user.name = #{name} and
+        </if>
+        <if test="status != null and status != ''">
+            written.status = #{status} and
+        </if>
+        written.store_id = #{storeId}
+        limit 10 offset #{page}
+    </select>
+    <select id="getTotalNum" resultType="int" parameterType="com.cj.common.vo.WrittenSearchVO">
+        select count(*)
+        from written
+        inner join user
+        on written.employee_id = user.id
+        where
+        <if test="name!= null and name != ''">
+            user.name = #{name} and
+        </if>
+        <if test="status != null and status != ''">
+            written.status = #{status} and
+        </if>
+        written.store_id = #{storeId}
+    </select>
+
+</mapper>

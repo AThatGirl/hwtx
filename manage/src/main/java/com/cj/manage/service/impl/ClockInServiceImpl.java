@@ -12,15 +12,13 @@ import com.cj.common.mapper.UserMapper;
 import com.cj.common.vo.ResultVO;
 import com.cj.manage.service.ClockInService;
 import com.cj.manage.vo.ClockInSearchVO;
+import com.cj.manage.vo.ClockInResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -57,7 +55,16 @@ public class ClockInServiceImpl implements ClockInService {
         }
         clockInMapper.selectPage(clockInPage, queryWrapper);
         Map<String, Object> map = new HashMap<>();
-        map.put("clockIns", clockInPage.getRecords());
+        List<ClockIn> records = clockInPage.getRecords();
+        List<ClockInResponseVO> responseVOS = new ArrayList<>();
+        for (ClockIn record : records) {
+            ClockInResponseVO clockInResponseVO = new ClockInResponseVO();
+            clockInResponseVO.setClockIn(record);
+            User user = userMapper.selectById(record.getEmployeeId());
+            clockInResponseVO.setUser(user);
+            responseVOS.add(clockInResponseVO);
+        }
+        map.put("clockIns", responseVOS);
         map.put("total", clockInPage.getTotal());
         return ResultVO.success().setData(map);
     }

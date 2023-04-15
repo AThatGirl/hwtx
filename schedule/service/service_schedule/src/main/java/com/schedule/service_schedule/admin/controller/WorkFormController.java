@@ -67,19 +67,21 @@ public class WorkFormController {
     @Resource
     WrittenClient writtenClient;
 
-    @PostMapping("/generateShifts/{id}")
+    @PostMapping("/generateShifts/{id}/{size}")
     @ApiOperation(value = "上传客流量excel文件,生成排班班次")
-    public ResultVO insertExcelFile(@RequestPart MultipartFile file, @PathVariable(value = "id") String id){
+    public ResultVO insertExcelFile(@RequestPart MultipartFile file, @PathVariable(value = "id") String id,
+                                    @PathVariable double size){
         try {
             //1 获取文件输入流
             InputStream inputStream = null;
             inputStream = file.getInputStream();
+            PassengerFlowExcelListener passengerFlowExcelListener=new PassengerFlowExcelListener();
             // 这里 需要指定读用哪个class去读，然后读取所有的sheet 文件流会自动关闭
             EasyExcel.read(inputStream, PassengerFlowExcelDto.class,
-                    new PassengerFlowExcelListener()
+                    passengerFlowExcelListener
             ).doReadAll();
             //获取客流量数据
-            List<List<PassengerFlowExcelDto>> passengerFlowExcelVoLists = PassengerFlowExcelListener.getPassengerFlowExcelVoLists();
+            List<List<PassengerFlowExcelDto>> passengerFlowExcelVoLists = passengerFlowExcelListener.getPassengerFlowExcelVoLists();
             /*passengerFlowExcelVoLists.forEach(p->{
                 p.forEach(l->{
                     log.info(l.toString());
@@ -98,11 +100,12 @@ public class WorkFormController {
             list.add("开店规则");
             list.add("门店营业时间规则");
             wrapper.in("type",list);
+            wrapper.eq("store_id",id);
             List<Rule> ruleList = ruleService.list(wrapper);
             for(Rule rule:ruleList){
                 ruleMap.put(rule.getType(),rule.getValue());
             }
-            workFormService.insertWorkForm(passengerFlowExcelVoLists,ruleMap,100,id);
+            workFormService.insertWorkForm(passengerFlowExcelVoLists,ruleMap,size,id);
 
         } catch (IOException e) {
             throw new ScheduleException(20001,"获取排班失败");
@@ -121,7 +124,7 @@ public class WorkFormController {
         int count=0;
         for(List<WorkForm> workFormList:list){
             for(WorkForm workForm:workFormList){
-                if(workForm.getEmployeeId()==null||workForm.getEmployeeId()==""){
+                if(workForm.getEmployeeId()==null||workForm.getEmployeeId().equals("")){
                     count++;
                 }
             }
@@ -130,8 +133,10 @@ public class WorkFormController {
     }
     @GetMapping("/getDayShifts/{storeId}/{date}")
     @ApiOperation(value = "获取一天的班次信息")
-    public ResultVO getDayShift(@PathVariable String storeId,@PathVariable LocalDate date){
-        List<WorkForm> list=workFormService.getDayShift(storeId,date);
+    public ResultVO getDayShift(@PathVariable String storeId,@PathVariable LocalDate date,
+                                @RequestParam(required = false) String position,
+                                @RequestParam(required = false) String employeeName){
+        List<WorkForm> list=workFormService.getDayShift(storeId,date,position,employeeName);
         return ResultVO.success().data("dayShiftList",list);
     }
 
@@ -152,10 +157,11 @@ public class WorkFormController {
         return ResultVO.success().data("userList",userList);
     }
 
-    @PutMapping("/updateShiftEmployee/{employeeId}/{shiftId}")
+    @PutMapping("/updateShiftEmployee/{employeeId}/{shiftId}/{allowCareer}")
     @ApiOperation(value = "修改班次的员工")
-    public ResultVO updateShiftEmployee(@PathVariable String employeeId,@PathVariable String shiftId){
-        workFormService.updateById(new WorkForm().setEmployeeId(employeeId).setId(shiftId));
+    public ResultVO updateShiftEmployee(@PathVariable String employeeId,@PathVariable String shiftId,
+                                        @PathVariable String allowCareer){
+        workFormService.updateById(new WorkForm().setEmployeeId(employeeId).setId(shiftId).setAllowCareer(allowCareer));
         return ResultVO.success();
     }
 
@@ -220,6 +226,14 @@ public class WorkFormController {
                                   @PathVariable LocalDate endDate){
         List<List<WorkForm>> lists=workFormService.getMonthShifts(storeId,startDate,endDate);
         return ResultVO.success().data("monthShifts",lists);
+    }
+
+    @GetMapping("/getEmployeeWorkHour/{employeeId}/{date}/{startDate}/{endDate}")
+    public ResultVO getEmployeeWorkHour(@PathVariable String employeeId,
+                                        @PathVariable LocalDate date,
+                                        @PathVariable LocalDate startDate,
+                                        @PathVariable LocalDate endDate){
+        return ResultVO.success().data("user",workFormService.getEmployeeWorkHour(employeeId,date,startDate,endDate));
     }
 
 

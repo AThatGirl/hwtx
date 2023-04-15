@@ -18,6 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class ClockInServiceImpl implements ClockInService {
 
@@ -61,7 +67,7 @@ public class ClockInServiceImpl implements ClockInService {
         clockIn.setEmployeeId(platPunch.getEmployeeId());
         clockIn.setStoreId(platPunch.getStoreId());
         int res = clockInMapper.insert(clockIn);
-        if (res < 0){
+        if (res < 0) {
             ClassException.cast(CommonError.INSERT_ERROR);
         }
         return ResultVO.success();
@@ -70,12 +76,12 @@ public class ClockInServiceImpl implements ClockInService {
     @Override
     public ResultVO gestureClockIn(GestureVO gestureVO) {
         String realGesture = (String) redisTemplate.opsForValue().get(ClockIn.GESTURE);
-        if (!gestureVO.getGesture().equals(realGesture)){
+        if (!gestureVO.getGesture().equals(realGesture)) {
             return ResultVO.fail().setMessage("签到码错误或过期");
         }
         //查询是否已经签到了
         ClockIn clockIn = clockInMapper.selectOne(new QueryWrapper<ClockIn>().apply("DATE(sign_time) = CURDATE()").eq("sign_type", gestureVO.getSignType()));
-        if(clockIn != null){
+        if (clockIn != null) {
             return ResultVO.fail().setMessage("不能重复签到");
         }
         ClockIn clockInRes = new ClockIn();
@@ -87,6 +93,21 @@ public class ClockInServiceImpl implements ClockInService {
         clockInRes.setStoreId(gestureVO.getStoreId());
         clockInMapper.insert(clockInRes);
         return ResultVO.success();
+    }
+
+    @Override
+    public ResultVO isClockIn(String employeeId) {
+        String today = DateUtils.getNowDate();
+        today = today.substring(0, 10);
+        // 构建查询条件
+        List<ClockIn> cis = clockInMapper.selectList(new QueryWrapper<ClockIn>().eq("employeeId", employeeId));
+        List<ClockIn> res = new ArrayList<>();
+        for (ClockIn ci : cis) {
+            if (ci.getSignTime().substring(0, 10).equals(today)){
+                res.add(ci);
+            }
+        }
+        return ResultVO.success().setData(res);
     }
 
 

@@ -5,6 +5,7 @@ import com.cj.common.entity.Written;
 import com.cj.common.vo.WrittenResponseVO;
 import com.cj.common.vo.WrittenSearchVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 

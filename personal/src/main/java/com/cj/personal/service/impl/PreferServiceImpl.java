@@ -44,4 +44,11 @@ public class PreferServiceImpl implements PreferService {
         }
         return ResultVO.success();
     }
+
+    @Override
+    public Preference selectByEmployee(String id) {
+        QueryWrapper<Preference> wrapper=new QueryWrapper<>();
+        wrapper.eq("employee_id",id);
+        return preferenceMapper.selectOne(wrapper);
+    }
 }

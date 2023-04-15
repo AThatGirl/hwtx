@@ -18,16 +18,14 @@ import reactor.core.publisher.Mono;
  * @date 2023/01/13
  */
 //顺序,值约小优先级越高
-//@Order(-1)
-//@Component
+@Order(-1)
+@Component
 public class AuthorizeFilter implements GlobalFilter {
 
     public static final String HEADER_TOKEN = "token";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        System.out.println(111);
-
         //获取请求参数
         ServerHttpRequest request = exchange.getRequest();
         //获取路径
@@ -42,7 +40,6 @@ public class AuthorizeFilter implements GlobalFilter {
         //设置状态码
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
         //拦截请求
-        return chain.filter(exchange);
-//        return exchange.getResponse().setComplete();
+        return exchange.getResponse().setComplete();
     }
 }

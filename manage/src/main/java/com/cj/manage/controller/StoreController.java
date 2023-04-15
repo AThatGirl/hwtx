@@ -35,4 +35,10 @@ public class StoreController {
         return storeService.searchAllStore();
     }
 
+    @PostMapping("/addStore")
+    @ApiOperation("创建门店")
+    public ResultVO addStore(@RequestBody Store store){
+        return storeService.addStore(store);
+    }
+
 }

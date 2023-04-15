@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Api(tags = "个人信息")
 @RequestMapping("/personal/message")
@@ -28,6 +30,11 @@ public class MessageController {
     @ApiOperation("更新个人信息")
     public ResultVO updateMessage(@RequestBody User user){
         return messageService.updateMessage(user);
+    }
+
+    @GetMapping("getAllEmployeeMessage/{storeId}")
+    public List<User> getAllEmployeeMessage(@PathVariable String storeId){
+        return messageService.getAllMessage(storeId);
     }
 
 }

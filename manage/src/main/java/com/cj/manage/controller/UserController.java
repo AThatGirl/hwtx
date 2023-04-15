@@ -45,4 +45,10 @@ public class UserController {
         return userService.examine(id, pass);
     }
 
+    @GetMapping("/searchAllUser/{storeId}")
+    @ApiOperation("查询门店所有用户")
+    public ResultVO searchAllUser(@PathVariable String storeId){
+        return userService.searchAllUser(storeId);
+    }
+
 }

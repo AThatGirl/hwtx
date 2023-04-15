@@ -5,8 +5,6 @@ import lombok.Data;
 @Data
 public class NoticeVO {
 
-    //id
-    private String id;
 
     //页码
     private String page;

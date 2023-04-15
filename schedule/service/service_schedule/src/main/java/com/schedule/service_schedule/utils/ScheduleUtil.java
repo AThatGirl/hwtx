@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.schedule.service_base.handler.exceptionHandler.ScheduleException;
 import com.schedule.service_schedule.entity.dto.WorkFormDto;
 import com.schedule.service_schedule.entity.dto.*;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
@@ -95,6 +94,76 @@ public class ScheduleUtil {
 
         return weeklists;
     }
+
+
+    public static List<List<WorkFormDto>> GenerateShifts1(List<List<ShiftDto>> shiftVoLists, Map<String,String> ruleMap){
+        List<List<WorkFormDto>> weeklists=new ArrayList<>();//存储一个星期的班次
+        List<WorkFormDto> workFormDtoList =null;//存储某天生成的班次
+        /**
+         * 班次限制规则：{"count":"3","formula":"<=4"}
+         * "工作时长规则"：{"weekWorkTime":"40","dayWorkTime":"8","shiftTimeRange":"2-4","maxShiftTime":"4"}
+         */
+        //1.获取规则json值
+        JSONObject shiftLimitJSON;
+        JSONObject workTimeJSON;
+        try{
+            shiftLimitJSON = JSON.parseObject(ruleMap.get("班次限制规则"));
+            workTimeJSON=JSON.parseObject(ruleMap.get("工作时长规则"));
+        }catch (Exception e){
+            throw new ScheduleException(20001,"班次生成获取规则值失败:"+e.getMessage());
+        }
+        //获取规则信息
+        String[] shiftTimeRange=workTimeJSON.getString("shiftTimeRange").split("-");
+        double maxShiftTimeRange=Double.parseDouble(shiftTimeRange[1]);
+        double minShiftTimeRange=Double.parseDouble(shiftTimeRange[0]);
+        double maxShiftTime=maxShiftTimeRange;
+        double shiftLimit=Double.parseDouble(shiftLimitJSON.getString("formula").split("<=")[1]);
+        Integer shiftLimitCount=shiftLimitJSON.getInteger("count");
+        //3.按照门店营业时间生成一个星期的班次
+        for(int i=0;i<shiftVoLists.size();i++){
+            //每天班次需要人数的集合
+            List<ShiftDto> shiftDtoList =shiftVoLists.get(i);
+            /**
+             *  根据班次人数集合生成排班表
+             *  1.判断开店班次是否超过了最大班次时间限制
+             *  2.开始生成其他班次
+             *  3.判断关店班次是否超过最大班次时间限制
+             */
+
+            workFormDtoList =new ArrayList<>();//用于存放当前生成的班次
+            List<List<WorkFormDto>> sortLists=new ArrayList<>();//用于分类生成的班次
+            //生成开店班次
+            //用于存储开店班次的时长
+            double startShiftTime=TimeUtil.calculateStringTimeSub(shiftDtoList.get(0).getEndTime(), shiftDtoList.get(0).getStartTime());
+            getShift(sortLists, shiftDtoList.get(0),maxShiftTime,startShiftTime);
+            //循环生成客流量班次,除了开店班次和关店班次
+            for(int a = 1; a< shiftDtoList.size()-1; a++){
+                ShiftDto shiftDto = shiftDtoList.get(a);
+                getShift(sortLists, shiftDto,maxShiftTime,1);
+            }
+            //生成关店班次
+            getShift(sortLists, shiftDtoList.get(shiftDtoList.size()-1),maxShiftTime, shiftDtoList.get(shiftDtoList.size()-1).getShiftTime());
+
+            //处理班次时间不符合规则的班次,判断是否有和当前班次start时间一样的end时间的班次
+            dealShiftRangeRule(sortLists,minShiftTimeRange);
+
+            //进行班次限制规则的判定
+            dealShiftLimitRule(sortLists,shiftLimit,shiftLimitCount,minShiftTimeRange);
+
+            //把lists里面的全部拿出来
+            for(List<WorkFormDto> list:sortLists){
+                for(WorkFormDto workFormDto :list){
+                    workFormDtoList.add(workFormDto);
+                }
+            }
+            weeklists.add(workFormDtoList);
+
+        }
+
+
+        return weeklists;
+    }
+
     //处理小于规定的班次范围的班次
     private static void dealShiftRangeRule(List<List<WorkFormDto>> sortLists,double minShiftTimeRange) {
 
@@ -327,6 +396,8 @@ public class ScheduleUtil {
             log.info(r.toString());
         });
         //判断是否有足够的客流量数据
+        log.info(passengerFlowExcelVoLists.size()+"");
+        log.info(runDateTimeDtoList.size()+"");
         if(passengerFlowExcelVoLists.size()!= runDateTimeDtoList.size()){
             throw new ScheduleException(20001,"客流量数据和门店营业时间不匹配！");
         }

@@ -2,17 +2,18 @@ server:
   port: 8021
 spring:
   application:
-    name: service_schedule
+    name: service-schedule
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/schedule?serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost:3306/a33?serverTimezone=GMT%2B8
     username: root
     password: root
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+        service: service-schedule
 
 
 mybatis-plus:

@@ -35,7 +35,10 @@ public class PreferenceController {
         return preferService.addPrefer(preference);
     }
 
-
-
+    @GetMapping("/getPreference/{employeeid}")
+    @ApiOperation("获取偏好信息")
+    public Preference getPreference(@PathVariable("employeeid") String id){
+        return preferService.selectByEmployee(id);
+    }
 
 }

@@ -8,14 +8,11 @@ import com.cj.personal.vo.PlatPunch;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author jerry
@@ -31,15 +28,21 @@ public class ClockInController {
 
     @PostMapping("/localPunch")
     @ApiOperation("地理位置打卡")
-    public ResultVO localPunch(@RequestBody PlatPunch platPunch){
+    public ResultVO localPunch(@RequestBody PlatPunch platPunch) {
         return clockInService.getPunch(platPunch);
     }
+
     @PostMapping("/gestureClockIn")
     @ApiOperation("手势签到")
-    public ResultVO gestureClockIn(@RequestBody GestureVO gestureVO){
+    public ResultVO gestureClockIn(@RequestBody GestureVO gestureVO) {
         return clockInService.gestureClockIn(gestureVO);
     }
 
+    @GetMapping("/isClockIn/{employeeId}")
+    @ApiOperation("是否已经签到上班")
+    public ResultVO isClockIn(@PathVariable String employeeId) {
+        return clockInService.isClockIn(employeeId);
+    }
 
 }
 

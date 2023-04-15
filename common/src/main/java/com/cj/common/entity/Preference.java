@@ -42,5 +42,7 @@ public class Preference implements Serializable {
 
     private String storeId;
 
+    private String weekTime;
+
 
 }

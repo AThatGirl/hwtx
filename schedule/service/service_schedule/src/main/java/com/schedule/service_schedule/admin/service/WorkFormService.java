@@ -26,7 +26,7 @@ public interface WorkFormService extends IService<WorkForm> {
     //获取门店某个时间的班次
     List<List<List<WorkForm>>> getWorkFormByStoreId(String storeId, LocalDate startDate,LocalDate endDate);
 
-    List<WorkForm> getDayShift(String storeId, LocalDate date);
+    List<WorkForm> getDayShift(String storeId, LocalDate date,String position,String employeeName);
 
     List<List<WorkForm>> getWeekShift(String storeId, LocalDate startDate, LocalDate endDate,String position,String employeeName);
 
@@ -39,4 +39,6 @@ public interface WorkFormService extends IService<WorkForm> {
     List<List<ShiftExcelVo>> getShiftExcelInfo(String storeId, LocalDate startDate,LocalDate endDate);
 
     List<List<WorkForm>> getMonthShifts(String storeId, LocalDate startDate, LocalDate endDate);
+
+    Object getEmployeeWorkHour(String employeeId, LocalDate date, LocalDate startDate, LocalDate endDate);
 }

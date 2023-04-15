@@ -1,5 +1,6 @@
 package com.schedule.service_schedule.entity.vo.workForm;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,4 +15,6 @@ public class ShiftVo implements Serializable {
     private LocalTime endTime;
     private LocalDate startDate;
     private LocalDate endDate;
+    @ApiModelProperty(value = "允许职位")
+    private String allowCareer;
 }

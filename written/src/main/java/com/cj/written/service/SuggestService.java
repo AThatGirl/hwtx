@@ -38,4 +38,5 @@ public interface SuggestService {
     ResultVO deleteSuggestById(String[] ids);
 
 
+    ResultVO getAllSuggest(String storeId);
 }

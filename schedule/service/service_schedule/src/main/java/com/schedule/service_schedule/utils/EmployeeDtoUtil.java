@@ -57,11 +57,12 @@ public class EmployeeDtoUtil {
         double dayWorkTimeLimit=workTimeRuleJson.getDouble("dayWorkTime");
         for(User user:userList){
             EmployeeDto employeeDto=new EmployeeDto();
+            employeeDto.setPosition(user.getCareer());
             employeeDto.setId(user.getId());
-            if(Integer.parseInt(user.getPreference().getRangeTime())==0){
+            if(Integer.parseInt(user.getPreference().getTimeLength())==0){
                 employeeDto.setDayWorkTimeLimit(dayWorkTimeLimit);
             }else{
-                employeeDto.setDayWorkTimeLimit(Integer.parseInt(user.getPreference().getRangeTime()));
+                employeeDto.setDayWorkTimeLimit(Integer.parseInt(user.getPreference().getTimeLength()));
             }
 
             if(Integer.parseInt(user.getPreference().getWeekTime())==0){

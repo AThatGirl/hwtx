@@ -6,11 +6,9 @@ import com.schedule.service_schedule.entity.dto.RunDateTimeDto;
 import com.schedule.service_schedule.entity.vo.client.Preference;
 import com.schedule.service_schedule.entity.vo.client.User;
 import com.schedule.service_schedule.entity.vo.excel.ShiftExcelVo;
-import com.schedule.service_schedule.utils.EmployeeDtoUtil;
-import com.schedule.service_schedule.utils.PreferenceUtil;
-import com.schedule.service_schedule.utils.RuleUtil;
-import com.schedule.service_schedule.utils.WeekUtil;
-import org.junit.Test;
+import com.schedule.service_schedule.utils.*;
+
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalTime;
@@ -62,5 +60,10 @@ public class test {
     @Test
     public void t4(){
         RuleUtil.getRunTimeValue("Mou-Fri&9:00-21:00;Sta-Sun&10:00-22:00").forEach(System.out::println);
+    }
+
+    @Test
+    public void t5(){
+        System.out.println(TimeUtil.calculateStringTimeSub("12:00","09:00"));
     }
 }

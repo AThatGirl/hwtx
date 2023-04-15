@@ -42,5 +42,7 @@ public interface UserService {
      */
     ResultVO examine(String id, Integer pass);
 
+    ResultVO searchAllUser(String storeId);
+
 
 }

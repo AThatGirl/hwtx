@@ -2,7 +2,6 @@ package com.schedule.service_schedule.utils;
 
 import com.schedule.service_schedule.entity.dto.EmployeePreferenceDto;
 import com.schedule.service_schedule.entity.vo.client.Preference;
-import io.swagger.models.auth.In;
 
 import java.util.ArrayList;
 import java.util.Arrays;

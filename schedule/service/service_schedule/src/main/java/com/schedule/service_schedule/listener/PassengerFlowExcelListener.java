@@ -14,7 +14,7 @@ import java.util.Map;
 @Slf4j
 public class PassengerFlowExcelListener extends AnalysisEventListener<PassengerFlowExcelDto> {
     private List<PassengerFlowExcelDto> passengerFlowExcelDtoList =null;//存放客流量数据
-    private static List<List<PassengerFlowExcelDto>> passengerFlowExcelVoLists=new ArrayList<>();//存放多张表的客流量数据
+    private List<List<PassengerFlowExcelDto>> passengerFlowExcelVoLists=new ArrayList<>();//存放多张表的客流量数据
 
     private RuleService ruleService;
 
@@ -48,7 +48,7 @@ public class PassengerFlowExcelListener extends AnalysisEventListener<PassengerF
         passengerFlowExcelVoLists.add(passengerFlowExcelDtoList);
     }
 
-    public static List<List<PassengerFlowExcelDto>> getPassengerFlowExcelVoLists() {
+    public List<List<PassengerFlowExcelDto>> getPassengerFlowExcelVoLists() {
         return passengerFlowExcelVoLists;
     }
 

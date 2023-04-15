@@ -44,5 +44,6 @@ public class Preference implements Serializable {
     @ApiModelProperty(value = "周工作限制，0没有限制")
     private String weekTime;
 
+    private String storeId;
 
 }

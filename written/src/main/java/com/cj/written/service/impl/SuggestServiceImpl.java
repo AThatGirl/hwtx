@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -62,6 +63,12 @@ public class SuggestServiceImpl implements SuggestService {
             ClassException.cast(CommonError.DELETE_ERROR);
         }
         return ResultVO.success();
+    }
+
+    @Override
+    public ResultVO getAllSuggest(String storeId) {
+        List<Suggest> suggests = suggestMapper.selectList(new QueryWrapper<Suggest>().eq("store_id", storeId));
+        return ResultVO.success().setData(suggests);
     }
 
 

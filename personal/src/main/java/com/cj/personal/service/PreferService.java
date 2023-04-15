@@ -31,4 +31,5 @@ public interface PreferService {
      */
     ResultVO addPrefer(Preference preference);
 
+    Preference selectByEmployee(String id);
 }

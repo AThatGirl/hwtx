@@ -3,6 +3,8 @@ package com.cj.personal.service;
 import com.cj.common.entity.User;
 import com.cj.common.vo.ResultVO;
 
+import java.util.List;
+
 /**
  * 个人信息
  *
@@ -28,4 +30,5 @@ public interface MessageService {
      */
     ResultVO updateMessage(User user);
 
+    List<User> getAllMessage(String storeId);
 }

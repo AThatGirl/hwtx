@@ -39,7 +39,6 @@ public class NoticeServiceImpl implements NoticeService {
         Page<Notice> noticePage = new Page<>(Integer.parseInt(noticeVO.getPage()), 10);
         QueryWrapper<Notice> queryWrapper = new QueryWrapper<>();
         //全体成员的通知也要包括
-        queryWrapper.or().eq("receiver_id", Notice.ALL_USER).eq("receiver_id", noticeVO.getId());
         //条件查询
         if (!StringUtils.isEmpty(noticeVO.getStatus())) {
             queryWrapper.eq("status", noticeVO.getStatus());
@@ -50,6 +49,7 @@ public class NoticeServiceImpl implements NoticeService {
         if (!StringUtils.isEmpty(noticeVO.getTime())) {
             queryWrapper.ge("create_time", noticeVO.getTime());
         }
+        queryWrapper.or().eq("receiver_id", Notice.ALL_USER);
         noticeMapper.selectPage(noticePage, queryWrapper);
 
         //放入结果集

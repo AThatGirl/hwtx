@@ -82,7 +82,6 @@ public class UserServiceImpl implements UserService {
     public ResultVO deleteUser(String[] ids) {
         try {
             List<String> list = Arrays.asList(ids);
-            // TODO delete
             userMapper.deleteBatchIds(Arrays.asList(ids));
             clockInMapper.delete(new QueryWrapper<ClockIn>().in("employee_id", list));
             noticeMapper.delete(new QueryWrapper<Notice>().in("sender_id", list).or().in("receiver_id", list));
@@ -100,12 +99,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVO examine(String id, Integer pass) {
         User user = userMapper.selectById(id);
-        user.setPass(pass);
-        int res = userMapper.updateById(user);
-        if (res < 0) {
-            ClassException.cast(CommonError.UPDATE_ERROR);
+        if (User.NO_PASS.equals(pass)) {
+            int del = userMapper.deleteById(user.getId());
+            if (del < 0) {
+                ClassException.cast(CommonError.DELETE_ERROR);
+            }
+        }else {
+            user.setPass(pass);
+            int res = userMapper.updateById(user);
+            if (res < 0) {
+                ClassException.cast(CommonError.UPDATE_ERROR);
+            }
         }
+
         return ResultVO.success();
+    }
+
+    @Override
+    public ResultVO searchAllUser(String storeId) {
+        List<User> users = userMapper.selectList(new QueryWrapper<User>().eq("store_id", storeId));
+        return ResultVO.success().setData(users);
     }
 
 

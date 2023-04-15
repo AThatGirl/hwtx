@@ -24,4 +24,11 @@ public interface ClockInService {
      */
     ResultVO gestureClockIn(GestureVO gestureVO);
 
+    /**
+     * 员工是否打卡
+     * @param signTime
+     * @param employeeId
+     * @return
+     */
+    ResultVO isClockIn(String employeeId);
 }

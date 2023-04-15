@@ -45,6 +45,7 @@ public class OSSClientUtils {
     public String uploadFile(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
         assert originalFilename != null;
+        System.out.println(originalFilename);
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
         String filename = UUID.randomUUID().toString() + extension;
         String key = DIR + "/" + filename;

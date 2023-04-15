@@ -147,12 +147,14 @@ public class RuleUtil {
             case "门店营业时间规则":
                 //处理门店营业时间规则
                 rule.setType(ruleVo.getBusinessRule().getType());
-                rule.setId(ruleVo.getBusinessRule().getStoreId());
-                rule.setValue(WeekUtil.getStringJSONWeek(ruleVo.getBusinessRule().getRunDateTimeDtoList()));
+                rule.setStoreId(ruleVo.getBusinessRule().getStoreId());
+                map=new HashMap<>();
+                map.put("runTime",WeekUtil.getStringJSONWeek(ruleVo.getBusinessRule().getRunDateTimeDtoList()));
+                rule.setValue(JSON.toJSONString(map));
                 break;
             case "关店规则":
                 rule.setType("关店规则");
-                rule.setId(ruleVo.getEndRule().getStoreId());
+                rule.setStoreId(ruleVo.getEndRule().getStoreId());
                 map=new HashMap<>();
                 map.put("after",""+ruleVo.getEndRule().getAfter());
                 map.put("count",""+ruleVo.getEndRule().getCount());
@@ -161,7 +163,7 @@ public class RuleUtil {
                 break;
             case "开店规则":
                 rule.setType("开店规则");
-                rule.setId(ruleVo.getPrepareRule().getStoreId());
+                rule.setStoreId(ruleVo.getPrepareRule().getStoreId());
                 map=new HashMap<>();
                 map.put("front",""+ruleVo.getPrepareRule().getFront());
                 map.put("formula",ruleVo.getPrepareRule().getFormula());
@@ -169,7 +171,7 @@ public class RuleUtil {
                 break;
             case "工作时长规则":
                 rule.setType("工作时长规则");
-                rule.setId(ruleVo.getWorkHourRule().getStoreId());
+                rule.setStoreId(ruleVo.getWorkHourRule().getStoreId());
                 map=new HashMap<>();
                 map.put("weekWorkTime",""+ruleVo.getWorkHourRule().getWeekWorkTime());
                 map.put("dayWorkTime",""+ruleVo.getWorkHourRule().getDayWorkTime());
@@ -179,7 +181,7 @@ public class RuleUtil {
                 break;
             case "午餐时间规则":
                 rule.setType("午餐时间规则");
-                rule.setId(ruleVo.getLunchTimeRule().getStoreId());
+                rule.setStoreId(ruleVo.getLunchTimeRule().getStoreId());
                 map=new HashMap<>();
                 map.put("time",ruleVo.getLunchTimeRule().getTime());
                 map.put("count",""+ruleVo.getLunchTimeRule().getCount());
@@ -195,19 +197,19 @@ public class RuleUtil {
                 break;
             case "休息时间规则":
                 rule.setType("休息时间规则");
-                rule.setId(ruleVo.getRestTimeRule().getStoreId());
+                rule.setStoreId(ruleVo.getRestTimeRule().getStoreId());
                 rule.setValue(JSON.toJSONString(ruleVo.getRestTimeRule()));
                 break;
             case "客流量规则":
                 rule.setType("客流量规则");
-                rule.setId(ruleVo.getNoPassengerFlowRule().getStoreId());
+                rule.setStoreId(ruleVo.getPassengerFlowRule().getStoreId());
                 map=new HashMap<>();
                 map.put("formula",ruleVo.getPassengerFlowRule().getFormula());
                 rule.setValue(JSON.toJSONString(map));
                 break;
             case "班次限制规则":
                 rule.setType("班次限制规则");
-                rule.setId(ruleVo.getShiftLimitRule().getStoreId());
+                rule.setStoreId(ruleVo.getShiftLimitRule().getStoreId());
                 map=new HashMap<>();
                 map.put("formula",ruleVo.getShiftLimitRule().getFormula());
                 map.put("count",""+ruleVo.getShiftLimitRule().getCount());
@@ -215,7 +217,7 @@ public class RuleUtil {
                 break;
             case "无客流量规则":
                 rule.setType("无客流量规则");
-                rule.setId(ruleVo.getNoPassengerFlowRule().getStoreId());
+                rule.setStoreId(ruleVo.getNoPassengerFlowRule().getStoreId());
                 map=new HashMap<>();
                 map.put("count",""+ruleVo.getNoPassengerFlowRule().getCount());
                 rule.setValue(JSON.toJSONString(map));
