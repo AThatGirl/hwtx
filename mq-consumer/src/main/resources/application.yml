@@ -23,8 +23,8 @@ spring:
 mail:
   configs:
     # 账号
-    - username: 2046188606@qq.com
-      password: szxcildhozuiegde
+    - username: your-username
+      password: your-password
       host: smtp.qq.com
       port: 25
       protocol: smtp

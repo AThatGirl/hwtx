@@ -26,7 +26,7 @@ spring:
 # 阿里云oss对象存储
 aliyun:
   oss:
-    endpoint: oss-cn-hangzhou.aliyuncs.com
-    accessKeyId: LTAI5tPqmkuAZMN8cM5vzWLV
-    accessKeySecret: mLO40ZQh87dH3LIJodnnJPsOCLsai9
-    bucketName: jerry273
+    endpoint: your-endpoint
+    accessKeyId: your-accessKeyId
+    accessKeySecret: your-accessKeySecret
+    bucketName: your-bucketName

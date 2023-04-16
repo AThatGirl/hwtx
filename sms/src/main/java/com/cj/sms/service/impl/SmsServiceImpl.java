@@ -39,7 +39,7 @@ public class SmsServiceImpl implements SmsService {
             return false;
         }
         DefaultProfile profile =
-                DefaultProfile.getProfile("cn-qingdao", "LTAI5tPqmkuAZMN8cM5vzWLV", "mLO40ZQh87dH3LIJodnnJPsOCLsai9");
+                DefaultProfile.getProfile("cn-qingdao", "your-accessKeyId", "your-secret");
         IAcsClient client = new DefaultAcsClient(profile);
         CommonRequest request = new CommonRequest();
         //request.setProtocol(ProtocolType.HTTPS);
