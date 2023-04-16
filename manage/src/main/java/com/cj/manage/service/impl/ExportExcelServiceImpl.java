@@ -1,6 +1,7 @@
 package com.cj.manage.service.impl;
 
 import com.alibaba.excel.EasyExcel;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cj.common.entity.Notice;
 import com.cj.common.entity.Suggest;
 import com.cj.common.entity.User;
@@ -41,8 +42,8 @@ public class ExportExcelServiceImpl implements ExportExcelService {
     private SuggestMapper suggestMapper;
 
     @Override
-    public void writeUserToExcel(HttpServletResponse response) {
-        List<User> users = userMapper.selectList(null);
+    public void writeUserToExcel(String storeId,HttpServletResponse response) {
+        List<User> users = userMapper.selectList(new QueryWrapper<User>().eq("store_id", storeId));
         List<UserInfoExcel> dataList = new ArrayList<>();
         for (User user : users) {
             UserInfoExcel userInfoExcel = new UserInfoExcel();
@@ -66,8 +67,8 @@ public class ExportExcelServiceImpl implements ExportExcelService {
     }
 
     @Override
-    public void writeWrittenToExcel(HttpServletResponse response) {
-        List<Written> writtens = writtenMapper.selectList(null);
+    public void writeWrittenToExcel(String storeId, HttpServletResponse response) {
+        List<Written> writtens = writtenMapper.selectList(new QueryWrapper<Written>().eq("store_id", storeId));
         List<WrittenExcel> dataList = new ArrayList<>();
         for (Written written : writtens) {
             WrittenExcel writtenExcel = new WrittenExcel();
@@ -84,8 +85,8 @@ public class ExportExcelServiceImpl implements ExportExcelService {
     }
 
     @Override
-    public void writeNoticeToExcel(HttpServletResponse response) {
-        List<Notice> notices = noticeMapper.selectList(null);
+    public void writeNoticeToExcel(String storeId, HttpServletResponse response) {
+        List<Notice> notices = noticeMapper.selectList(new QueryWrapper<Notice>().eq("store_id", storeId));
         List<NoticeExcel> dataList = new ArrayList<>();
         for (Notice notice : notices) {
             NoticeExcel noticeExcel = new NoticeExcel();
@@ -104,8 +105,8 @@ public class ExportExcelServiceImpl implements ExportExcelService {
     }
 
     @Override
-    public void writeSuggestToExcel(HttpServletResponse response) {
-        List<Suggest> suggests = suggestMapper.selectList(null);
+    public void writeSuggestToExcel(String storeId, HttpServletResponse response) {
+        List<Suggest> suggests = suggestMapper.selectList(new QueryWrapper<Suggest>().eq("store_id", storeId));
         List<SuggestExcel> dataList = new ArrayList<>();
         for (Suggest suggest : suggests) {
             SuggestExcel suggestExcel = new SuggestExcel();

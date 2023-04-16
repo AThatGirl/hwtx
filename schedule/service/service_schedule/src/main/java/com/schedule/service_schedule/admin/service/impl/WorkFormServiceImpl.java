@@ -56,7 +56,7 @@ public class WorkFormServiceImpl extends ServiceImpl<WorkFormMapper, WorkForm> i
                 log.info(l.toString());
             });
         });
-        List<List<WorkFormDto>> workForms = ScheduleUtil.GenerateShifts1(shiftsPeopleNum, ruleMap);
+        List<List<WorkFormDto>> workForms = ScheduleUtil.GenerateShifts(shiftsPeopleNum, ruleMap);
         workForms.forEach(s -> {
             s.forEach(w -> {
                 log.info(w.toString());
@@ -108,6 +108,7 @@ public class WorkFormServiceImpl extends ServiceImpl<WorkFormMapper, WorkForm> i
         QueryWrapper<WorkForm> wrapper = new QueryWrapper<>();
         wrapper.between("date", startDate, endDate);
         wrapper.orderByAsc("date", "start_time", "end_time");
+        wrapper.eq("store_id",storeId);
         List<WorkForm> list = baseMapper.selectList(wrapper);
         log.info(list.size() + "");
         for (WorkForm workForm : list) {
@@ -276,6 +277,7 @@ public class WorkFormServiceImpl extends ServiceImpl<WorkFormMapper, WorkForm> i
         list.add("晚餐时间规则");
         list.add("休息时间规则");
         wrapper.in("type", list);
+        wrapper.eq("store_id",storeId);
         List<Rule> ruleList = ruleService.list(wrapper);
         for (Rule rule : ruleList) {
             ruleMap.put(rule.getType(), rule.getValue());
@@ -317,11 +319,13 @@ public class WorkFormServiceImpl extends ServiceImpl<WorkFormMapper, WorkForm> i
         wrapper.eq("date", shiftVo.getDate());
         wrapper.gt("start_time", shiftVo.getStartTime());
         wrapper.lt("start_time", shiftVo.getEndTime());
+        wrapper.eq("store_id",shiftVo.getStoreId());
         List<WorkForm> workFormList = baseMapper.selectList(wrapper);
         wrapper = new QueryWrapper();
         wrapper.eq("date", shiftVo.getDate());
         wrapper.gt("end_time", shiftVo.getStartTime());
         wrapper.lt("end_time", shiftVo.getEndTime());
+        wrapper.eq("store_id",shiftVo.getStoreId());
         workFormList.addAll(baseMapper.selectList(wrapper));
         //获取所有的员工
         List<User> userList = employeeClient.getAllEmployeeMessage(shiftVo.getStoreId());
@@ -476,7 +480,7 @@ public class WorkFormServiceImpl extends ServiceImpl<WorkFormMapper, WorkForm> i
         user.setDayWorkTime(0.0);
         user.setWeekWorkTime(0.0);
         QueryWrapper<WorkForm> wrapper=new QueryWrapper<>();
-        wrapper.eq("employeeId",employeeId).between("date",startDate,endDate);
+        wrapper.eq("employee_id",employeeId).between("date",startDate,endDate);
         List<WorkForm> workFormList=baseMapper.selectList(wrapper);
         for(WorkForm workForm:workFormList){
             double shiftTime=TimeUtil.calculateStringTimeSub(workForm.getStartTime().toString(),workForm.getEndTime().toString());

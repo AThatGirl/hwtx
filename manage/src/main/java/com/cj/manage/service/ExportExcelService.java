@@ -12,19 +12,19 @@ public interface ExportExcelService {
      * 导出所有用户
      */
 
-    void writeUserToExcel(HttpServletResponse response);
+    void writeUserToExcel(String storeId, HttpServletResponse response);
 
     /**
      * 导出请假条
      */
-    void writeWrittenToExcel(HttpServletResponse response);
+    void writeWrittenToExcel(String storeId, HttpServletResponse response);
     /**
      * 导出消息
      */
-    void writeNoticeToExcel(HttpServletResponse response);
+    void writeNoticeToExcel(String storeId,HttpServletResponse response);
     /**
      * 导出建议
      */
-    void writeSuggestToExcel(HttpServletResponse response);
+    void writeSuggestToExcel(String storeId,HttpServletResponse response);
 
 }

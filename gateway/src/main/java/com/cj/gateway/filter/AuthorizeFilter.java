@@ -18,8 +18,8 @@ import reactor.core.publisher.Mono;
  * @date 2023/01/13
  */
 //顺序,值约小优先级越高
-@Order(-1)
-@Component
+//@Order(-1)
+//@Component
 public class AuthorizeFilter implements GlobalFilter {
 
     public static final String HEADER_TOKEN = "token";
@@ -30,7 +30,12 @@ public class AuthorizeFilter implements GlobalFilter {
         ServerHttpRequest request = exchange.getRequest();
         //获取路径
         String path = request.getURI().getPath();
-        // TODO 放行一部分静态资源
+        System.out.println("访问路径:" + path);
+        // 放行一部分静态资源
+        if (path.startsWith("/user/")) {
+            return chain.filter(exchange);
+        }
+
         HttpHeaders headers = request.getHeaders();
         String token = headers.getFirst(HEADER_TOKEN);
         if (token != null && JwtUtils.checkToken(token)){

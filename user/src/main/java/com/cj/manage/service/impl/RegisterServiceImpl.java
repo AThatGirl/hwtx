@@ -81,7 +81,7 @@ public class RegisterServiceImpl implements RegisterService {
         if (res < 0) {
             ClassException.cast(CommonError.INSERT_ERROR);
         }
-        //发送消息
+        //发送消息门店更新信息
         mqServiceFeignClient.updateStore(user.getStoreId());
         return ResultVO.success().setMessage("注册成功").setData(user);
     }

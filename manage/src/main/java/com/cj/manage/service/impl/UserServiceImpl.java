@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
         Page<User> page = new Page<>(userSearchVO.getPage(), 10);
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.ne("career", UserCareer.SUPER_ADMIN.getCareer()).ne("career", UserCareer.ADMIN.getCareer());
+        userQueryWrapper.ne("career", UserCareer.SUPER_ADMIN.getCareer());
         //根据名字查询
         if (!StringUtils.isEmpty(userSearchVO.getName())) {
             userQueryWrapper.eq("name", userSearchVO.getName());

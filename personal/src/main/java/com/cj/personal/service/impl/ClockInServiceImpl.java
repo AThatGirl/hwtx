@@ -100,7 +100,7 @@ public class ClockInServiceImpl implements ClockInService {
         String today = DateUtils.getNowDate();
         today = today.substring(0, 10);
         // 构建查询条件
-        List<ClockIn> cis = clockInMapper.selectList(new QueryWrapper<ClockIn>().eq("employeeId", employeeId));
+        List<ClockIn> cis = clockInMapper.selectList(new QueryWrapper<ClockIn>().eq("employee_id", employeeId));
         List<ClockIn> res = new ArrayList<>();
         for (ClockIn ci : cis) {
             if (ci.getSignTime().substring(0, 10).equals(today)){

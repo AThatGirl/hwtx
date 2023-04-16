@@ -4,20 +4,25 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cj.common.en.CommonError;
 import com.cj.common.entity.Notice;
+import com.cj.common.entity.User;
 import com.cj.common.exception.ClassException;
 import com.cj.common.mapper.NoticeMapper;
+import com.cj.common.mapper.UserMapper;
 import com.cj.common.vo.ResultVO;
 import com.cj.common.vo.SendNoticeVO;
 import com.cj.manage.feign.MqServiceFeignClient;
 import com.cj.manage.service.NoticeService;
+import com.cj.manage.vo.NoticeUserVO;
 import com.cj.manage.vo.NoticeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -27,6 +32,9 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Autowired
     private NoticeMapper noticeMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public ResultVO sendNotice(SendNoticeVO sendNoticeVO) {
@@ -40,21 +48,42 @@ public class NoticeServiceImpl implements NoticeService {
         QueryWrapper<Notice> queryWrapper = new QueryWrapper<>();
         //全体成员的通知也要包括
         //条件查询
-        if (!StringUtils.isEmpty(noticeVO.getStatus())) {
-            queryWrapper.eq("status", noticeVO.getStatus());
-        }
-        if (!StringUtils.isEmpty(noticeVO.getStoreId())) {
-            queryWrapper.eq("store_id", noticeVO.getStoreId());
-        }
-        if (!StringUtils.isEmpty(noticeVO.getTime())) {
-            queryWrapper.ge("create_time", noticeVO.getTime());
-        }
+        queryWrapper.and(w->{
+            if (!StringUtils.isEmpty(noticeVO.getStatus())) {
+                w.eq("status", noticeVO.getStatus());
+            }
+            if (!StringUtils.isEmpty(noticeVO.getStoreId())) {
+                w.eq("store_id", noticeVO.getStoreId());
+            }
+            return w;
+        });
+
         queryWrapper.or().eq("receiver_id", Notice.ALL_USER);
         noticeMapper.selectPage(noticePage, queryWrapper);
 
         //放入结果集
         Map<String, Object> map = new HashMap<>();
-        map.put("notices", noticePage.getRecords());
+        List<Notice> records = noticePage.getRecords();
+        List<NoticeUserVO> nuvs = new ArrayList<>();
+        for (Notice record : records) {
+            if (!StringUtils.isEmpty(noticeVO.getTime())) {
+                if (isDate1BeforeDate2(noticeVO.getTime(), record.getCreateTime())) {
+                    User user = userMapper.selectById(record.getReceiverId());
+                    NoticeUserVO nuv = new NoticeUserVO();
+                    nuv.setNotice(record);
+                    nuv.setUser(user);
+                    nuvs.add(nuv);
+                }
+            }else {
+                User user = userMapper.selectById(record.getReceiverId());
+                NoticeUserVO nuv = new NoticeUserVO();
+                nuv.setNotice(record);
+                nuv.setUser(user);
+                nuvs.add(nuv);
+            }
+
+        }
+        map.put("notices", nuvs);
         map.put("total", noticePage.getTotal());
         return ResultVO.success().setData(map);
     }
@@ -80,8 +109,17 @@ public class NoticeServiceImpl implements NoticeService {
         return ResultVO.success();
     }
 
-
-
+    public boolean isDate1BeforeDate2(String date1, String date2) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date d1 = sdf.parse(date1);
+            Date d2 = sdf.parse(date2);
+            return d1.before(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 }

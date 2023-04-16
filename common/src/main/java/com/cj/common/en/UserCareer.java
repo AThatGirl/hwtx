@@ -19,16 +19,17 @@ public enum UserCareer {
     /**
      * 普通店员
      */
-    ORDINARY("普通店员"),
+    ORDINARY("店员"),
 
     SECURITY_STAFF("保安"),
 
-    PROJECT_MANAGER("项目经理"),
-    TECHNICAL_SUPERVISOR("技术主管"),
-    DEVELOPER("开发人员"),
-    TESTERS("测试人员"),
-    DESIGNER("设计师"),
-    OPERATIONS_PERSONNEL("运营人员");
+    PROJECT_MANAGER("门店经理"),
+    TECHNICAL_SUPERVISOR("副经理"),
+    DEVELOPER("小组长"),
+    TESTERS("收银"),
+    DESIGNER("导购"),
+    OPERATIONS_PERSONNEL("库房"),
+    DESIGN("设计师");
 
     private final String career;
 
